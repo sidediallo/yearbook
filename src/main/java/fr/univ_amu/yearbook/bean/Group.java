@@ -1,11 +1,11 @@
-package fr.univ_amu.yearbook.bean;
+package main.java.fr.univ_amu.yearbook.bean;
 
 /**
  * 
  * The Group class is a bean that reperesent a group<br> 
  * It describes a group with some attributes and represents a group from datasource.
  * @author ZONGO
- *@version 1.0
+ * @version 1.0
  */
 public class Group {
 	/**
