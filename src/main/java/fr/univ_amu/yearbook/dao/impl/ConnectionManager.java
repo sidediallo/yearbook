@@ -35,7 +35,7 @@ public class ConnectionManager implements IConnectionManager {
 	
 	BasicDataSource ds;
 	
-	@Value("fr/univ_amu/yearbook/dao/impl/dao.properties")
+	@Value("dao.properties")
 	private String dbConfFile;
 	
 	public ConnectionManager() {
