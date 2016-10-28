@@ -19,10 +19,10 @@ import fr.univ_amu.yearbook.dao.exception.ConnectionManagerException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring.xml"})
-public class ConnectionManagerTest {
+public class DatabaseManagerImplTest {
 	
 	@Autowired
-	ConnectionManager connManager;
+	DatabaseManagerImpl connManager;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

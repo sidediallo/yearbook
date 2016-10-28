@@ -14,13 +14,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import fr.univ_amu.yearbook.dao.IConnectionManager;
+import fr.univ_amu.yearbook.dao.IDatabaseManager;
 import fr.univ_amu.yearbook.dao.exception.ConnectionManagerException;
 
 
 @Service("connectionManager")
 @Primary
-public class ConnectionManager implements IConnectionManager {
+public class DatabaseManagerImpl implements IDatabaseManager {
 	final String URL_PROPERTY = "url";
 	final String USER_PROPERTY = "user";
 	final String PASSWORD_PROPERTY = "password";
@@ -38,7 +38,7 @@ public class ConnectionManager implements IConnectionManager {
 	@Value("dao.properties")
 	private String dbConfFile;
 	
-	public ConnectionManager() {
+	public DatabaseManagerImpl() {
 		
 	}
 	
