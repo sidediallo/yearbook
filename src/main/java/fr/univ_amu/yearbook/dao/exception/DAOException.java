@@ -4,7 +4,7 @@ package fr.univ_amu.yearbook.dao.exception;
  * DAOException class is designed to represent and encapsulate the exceptions from the 
  * differents operations to datasources.
  * 
- * @author Utilisateur
+ * @author ZONGO
  *@version 1.0
  */
 public class DAOException extends RuntimeException {
@@ -16,8 +16,7 @@ public class DAOException extends RuntimeException {
 	/**
 	 * Constructor.<br>
 	 * Creates a new DAOException by indicating its cause.
-	 * @see java.lang.Throwable
-	 * @param the source of the exception
+	 * @param source the source of the exception.
 	 */
 	public DAOException(Throwable cause){
 		super(cause);
@@ -26,7 +25,7 @@ public class DAOException extends RuntimeException {
 	/**
 	 * Constructor.<br>
 	 * Creates a new DAOException by giving a message for the excepion.
-	 * @param message
+	 * @param message the message for this this exception.
 	 */
 	public DAOException(String message){
 		super(message);
@@ -35,9 +34,8 @@ public class DAOException extends RuntimeException {
 	/**
 	 * Constructor.<br>
 	 * Creates a new DAOException by giving a message and the cause of the exception.
-	 * @see java.lang.Throwable
-	 * @param message
-	 * @param cause
+	 * @param message the message fot this exception.
+	 * @param cause the cause of of the exception.
 	 */
 	public DAOException(String message, Throwable cause){
 		super(message,cause);
