@@ -20,7 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import fr.univ_amu.yearbook.bean.Group;
-import fr.univ_amu.yearbook.dao.exception.ConnectionManagerException;
+import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring.xml"})
@@ -46,7 +46,7 @@ public class ResultSetToBeanImplTest {
 	}
 
 	@Test
-	public void testToBean() throws ConnectionManagerException, SQLException {
+	public void testToBean() throws DatabaseManagerException, SQLException {
 		Connection conn = connManager.newConnection();
 		PreparedStatement pstm = conn.prepareStatement("INSERT INTO groupe values(?,?)",Statement.RETURN_GENERATED_KEYS);
 		pstm.setObject(1, null);

@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import fr.univ_amu.yearbook.dao.exception.ConnectionManagerException;
+import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring.xml"})
@@ -41,7 +41,7 @@ public class DatabaseManagerImplTest {
 	}
 
 	@Test
-	public void testNewConnection() throws ConnectionManagerException {
+	public void testNewConnection() throws DatabaseManagerException {
 		Connection conn = connManager.newConnection();
 		assertTrue("Connection is null", conn != null);
 		assertTrue(connManager.getNumActiveConnection() == 1);
@@ -58,7 +58,7 @@ public class DatabaseManagerImplTest {
 	}
 
 	@Test
-	public void testCloseConneection() throws ConnectionManagerException {
+	public void testCloseConneection() throws DatabaseManagerException {
 		Connection conn = connManager.newConnection();
 		assertTrue("Connection is null", conn != null);
 		assertTrue(connManager.getNumActiveConnection() == 1);

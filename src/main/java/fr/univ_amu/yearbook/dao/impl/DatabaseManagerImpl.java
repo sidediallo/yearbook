@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import fr.univ_amu.yearbook.dao.IDatabaseManager;
-import fr.univ_amu.yearbook.dao.exception.ConnectionManagerException;
+import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 
 
 @Service("connectionManager")
@@ -43,14 +43,14 @@ public class DatabaseManagerImpl implements IDatabaseManager {
 	}
 	
 	@PostConstruct
-	public void init() throws ConnectionManagerException{
+	public void init() throws DatabaseManagerException{
 		
 		Properties properties = new Properties();
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		InputStream file = classLoader.getResourceAsStream(dbConfFile);
 		
 		if(file == null){
-			throw new ConnectionManagerException("file "+dbConfFile+" is missing");
+			throw new DatabaseManagerException("file "+dbConfFile+" is missing");
 		}
 		
 		try {
@@ -61,7 +61,7 @@ public class DatabaseManagerImpl implements IDatabaseManager {
 			this.minConnectionSize = Integer.parseInt(properties.getProperty(MIN_CONNECTION_SIZE_PROPERTY));
 			this.maxConnectionSize = Integer.parseInt(properties.getProperty(MAX_CONNECTION_SIZE_PROPERTY));
 		} catch (IOException | NumberFormatException e) {
-			throw new ConnectionManagerException("Error when reading file"+dbConfFile,e);
+			throw new DatabaseManagerException("Error when reading file"+dbConfFile,e);
 		}
 		
 
@@ -75,31 +75,31 @@ public class DatabaseManagerImpl implements IDatabaseManager {
 	}
 
 	@PreDestroy
-	public void close() throws ConnectionManagerException{
+	public void close() throws DatabaseManagerException{
 		try {
 			ds.close();
 		} catch (SQLException e) {
-			throw new ConnectionManagerException(e);
+			throw new DatabaseManagerException(e);
 		}
 	}
 	
 	@Override
-	public Connection newConnection() throws ConnectionManagerException {
+	public Connection newConnection() throws DatabaseManagerException {
 		try {
 			Connection connection = ds.getConnection();
 			return connection;
 		} catch (SQLException e) {
-			throw new ConnectionManagerException("Unable to create connection",e);
+			throw new DatabaseManagerException("Unable to create connection",e);
 		}
 	}
 
 	@Override
-	public void closeConneection(Connection conn) throws ConnectionManagerException {
+	public void closeConneection(Connection conn){
 		if(conn != null){
 			try {
 				conn.close();
 			} catch (SQLException e) {
-				throw new ConnectionManagerException("Error when closing connection",e);
+				
 			}
 		}
 	}
