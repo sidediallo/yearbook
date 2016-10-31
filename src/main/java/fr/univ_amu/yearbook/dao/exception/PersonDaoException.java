@@ -1,4 +1,4 @@
-package main.java.fr.univ_amu.yearbook.dao.exception;
+package fr.univ_amu.yearbook.dao.exception;
 
 /**
  * <b>PersonDaoException</b> est la classe qui gère les différentes
