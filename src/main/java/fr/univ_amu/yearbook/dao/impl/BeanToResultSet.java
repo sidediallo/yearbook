@@ -25,7 +25,7 @@ public class BeanToResultSet<T> implements IBeanToResultSet<T> {
 	 * @return Le ResultSet correspondant ou null.
 	 * @throws DAOException Si une exception est levée.
 	 */
-	public ResultSet toResultSet(T bean, String query, String[] parametersList) throws DAOException {
-		return null;
+	public int toResultSet(T bean, String query, String[] parametersList) throws DAOException {
+		return 1;
 	}
 }
