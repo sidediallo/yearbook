@@ -1,7 +1,5 @@
 package fr.univ_amu.yearbook.dao;
 
-import java.sql.ResultSet;
-
 import fr.univ_amu.yearbook.dao.exception.DAOException;
 
 /**
@@ -24,5 +22,5 @@ public interface IBeanToResultSet<T> {
 	 * @return Le ResultSet correspondant ou null.
 	 * @throws DAOException Si une exception est levée.
 	 */
-	ResultSet toResultSet(T bean, String query, String[] parametersList) throws DAOException;
+	int toResultSet(T bean, String query, String[] parametersList) throws DAOException;
 }
