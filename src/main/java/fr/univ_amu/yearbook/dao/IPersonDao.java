@@ -1,10 +1,10 @@
-package main.java.fr.univ_amu.yearbook.interfaces;
+package fr.univ_amu.yearbook.dao;
 
 import java.util.Collection;
 
-import main.java.fr.univ_amu.yearbook.bean.Person;
-import main.java.fr.univ_amu.yearbook.dao.exception.PersonDaoException;
-import main.java.fr.univ_amu.yearbook.tools.exception.JdbcToolsException;
+import fr.univ_amu.yearbook.bean.Person;
+import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
+import fr.univ_amu.yearbook.dao.exception.PersonDaoException;
 
 /**
  * <b>IPersonDao</b> est l'interface qui gère les méthodes
@@ -28,7 +28,7 @@ public interface IPersonDao {
 	 * @throws PersonDaoException Si la personne rattachée à l'id n'existe pas.
 	 * @throws JdbcToolsException Si la connection n'est pas établie.
 	 */
-	public Person findPerson(long id) throws PersonDaoException, JdbcToolsException;
+	public Person findPerson(long id) throws PersonDaoException, DatabaseManagerException;
 	
 	/**
 	 * Retourne la liste des personnes existantes.
@@ -38,7 +38,7 @@ public interface IPersonDao {
 	 * @throws PersonDaoException S'il n'y a aucune personne.
 	 * @throws JdbcToolsException Si la connection n'est pas établie.
 	 */
-	public Collection<Person> findAllPersons() throws PersonDaoException, JdbcToolsException;
+	public Collection<Person> findAllPersons() throws PersonDaoException, DatabaseManagerException;
 	
 	/**
 	 * Création ou mise à jour d'une personne.
@@ -78,5 +78,5 @@ public interface IPersonDao {
 	 * @throws PersonDaoException Si exception levé avant.
 	 * @throws JdbcToolsException Si la connection n'est pas établie.
 	 */
-	public int countPersons() throws PersonDaoException, JdbcToolsException;
+	public int countPersons() throws PersonDaoException, DatabaseManagerException;
 }
