@@ -1,4 +1,4 @@
-package main.java.fr.univ_amu.yearbook.bus.personManager.exception;
+package fr.univ_amu.yearbook.bus.personManager.exception;
 
 /**
  * <b>PersonManagerException</b> est la classe qui gère les différentes
