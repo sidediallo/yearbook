@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import fr.univ_amu.yearbook.bean.Person;
 import fr.univ_amu.yearbook.dao.IPersonDao;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
-import fr.univ_amu.yearbook.dao.exception.PersonDaoException;
+import fr.univ_amu.yearbook.dao.exception.DAOException;
 
 /**
  * <b>PersonDao</b> est la classe qui implemente l'interface
@@ -25,10 +25,11 @@ import fr.univ_amu.yearbook.dao.exception.PersonDaoException;
  * </p>
  * 
  * @see Person
- * @see PersonDaoException
+ * @see DAOException
  * @see IPersonDao
- * @see JdbcTools
- * @see JdbcToolsException
+ * @see DatabaseManagerImpl
+ * @see DatabaseManagerException
+ * @see ResultSetToBeanImpl
  * 
  * @author Aboubacar Sidy DIALLO & Inoussa ZONGO
  * @version 1.0
@@ -58,34 +59,23 @@ public class PersonDao implements IPersonDao {
 	 * @param id L'id de la personne.
 	 * @return
 	 * 		La personne dont l'indentifiant est rentré en paramètre de la méthode. 
-	 * @throws PersonDaoException Si la personne rattachée à l'id n'existe pas.
+	 * @throws DAOException Si la personne rattachée à l'id n'existe pas.
 	 * @throws DatabaseManagerException Si la connection n'est pas établie.
 	 */
-	public Person findPerson(long id) throws PersonDaoException, DatabaseManagerException {
-		Person p = new Person();
-		ResultSet rs;
-		String query = "SELECT * FROM JEE_Person WHERE idP = ?";
+	public Person findPerson(long id) throws DAOException, DatabaseManagerException {
 		
-		try (Connection c = tools.newConnection()) {
-			PreparedStatement st = c.prepareStatement(query);
-			st.setLong(1, id);
-			rs = st.executeQuery();
+		try (Connection conn = tools.newConnection()) {
+			ResultSetToBeanImpl<Person> mapper = new ResultSetToBeanImpl<Person>(Person.class);
+			String query = "SELECT * FROM YEARBOOK_Person WHERE idP = ?";
+			PreparedStatement st = conn.prepareStatement(query);
 			
-			if (rs.next()) {
-				p.setId(rs.getLong(1));
-				p.setLastName(rs.getString(2));
-				p.setFirstName(rs.getString(3));
-				p.setEmail(rs.getString(4));
-				p.setHomePage(rs.getString(5));
-				p.setBirthDate(rs.getDate(6));
-				p.setPwd(rs.getString(7));
-				p.setIdG(rs.getLong(8));
-			}
+			st.setLong(1, id);
+			ResultSet rs = st.executeQuery();
+			
+			return mapper.toBean(rs); 
 		} catch (SQLException e){
-			throw new PersonDaoException();
+			throw new DAOException(e.getMessage());
 		}
-
-		return p;
 	}
 
 	/**
@@ -93,34 +83,23 @@ public class PersonDao implements IPersonDao {
 	 * 
 	 * @return
 	 * 		La liste de personnes.
-	 * @throws PersonDaoException S'il n'y a aucune personne.
+	 * @throws DAOException S'il n'y a aucune personne.
 	 * @throws DatabaseManagerException Si la connection n'est pas établie.
 	 */
-	public Collection<Person> findAllPersons() throws PersonDaoException, DatabaseManagerException {
-		Collection<Person> cp = new LinkedList<Person>();
-		Person p = new Person();
-		ResultSet rs;
-		String query = "SELECT * FROM JEE_Person";
+	public Collection<Person> findAllPersons() throws DAOException, DatabaseManagerException {
 		
-		try (Connection c = tools.newConnection()) {
-			Statement st = c.createStatement();
-			rs = st.executeQuery(query);
+		try (Connection conn = tools.newConnection()) {
+			String query = "SELECT * FROM YEARBOOK_Person";
+			Collection<Person> people = new LinkedList<Person>();
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
 			
 			while(rs.next()) {
-				p.setId(rs.getLong(1));
-				p.setLastName(rs.getString(2));
-				p.setFirstName(rs.getString(3));
-				p.setEmail(rs.getString(4));
-				p.setHomePage(rs.getString(5));
-				p.setBirthDate(rs.getDate(6));
-				p.setPwd(rs.getString(7));
-				p.setIdG(rs.getLong(8));
-				
-				cp.add(p);
+				people.add(findPerson(rs.getLong(1)));
 			}
-			return cp;
+			return people;
 		} catch (SQLException e){
-			throw new PersonDaoException();
+			throw new DAOException(e.getCause());
 		}
 	}
 
@@ -128,12 +107,12 @@ public class PersonDao implements IPersonDao {
 	 * Création ou mise à jour d'une personne.
 	 * 
 	 * @param p La personne.
-	 * @throws PersonDaoException Si la personne qu'on souhaite rajouter existe déjà
+	 * @throws DAOException Si la personne qu'on souhaite rajouter existe déjà
 	 * 		   ou si la personne qu'on souhaite mettre à jour n'existe pas.
 	 * @see Person
 	 */
-	public void saveOrUpdatePerson(Person p) throws PersonDaoException {
-		String query = "SELECT * FROM JEE_Person";
+	public void saveOrUpdatePerson(Person p) throws DAOException {
+		String query = "SELECT * FROM YEARBOOK_Person";
 		Statement st;
 		ResultSet rs;
 		
@@ -157,8 +136,8 @@ public class PersonDao implements IPersonDao {
 			rs.updateRow();
 		} catch (SQLException | DatabaseManagerException e){
 			try {
-				throw new PersonDaoException("error : no row updated or inserted");
-			} catch (PersonDaoException e1) {
+				throw new DAOException("error : no row updated or inserted");
+			} catch (DAOException e1) {
 				e1.getMessage();
 			}
 		}
@@ -170,17 +149,17 @@ public class PersonDao implements IPersonDao {
 	 * @param id L'id correspondant à la personne.
 	 */
 	public void removePerson(long id) {
-		String query = "DELETE FROM JEE_Person WHERE idP = ?";
+		String query = "DELETE FROM YEARBOOK_Person WHERE idP = ?";
 		PreparedStatement st;
 		
-		try (Connection c = tools.newConnection()) {
-			st = c.prepareStatement(query);
+		try (Connection conn = tools.newConnection()) {
+			st = conn.prepareStatement(query);
 			st.setLong(1, id);
 			st.executeUpdate();
 		} catch (SQLException | DatabaseManagerException e){
 			try {
-				throw new PersonDaoException("error : no row deleted");
-			} catch (PersonDaoException e1) {
+				throw new DAOException("error : no row deleted");
+			} catch (DAOException e1) {
 				e1.getMessage();
 			}
 		}
@@ -200,12 +179,12 @@ public class PersonDao implements IPersonDao {
 	 * Suppression de toutes les personnes de la base.
 	 */
 	public void removeAllPersons() {
-		String query = "SELECT * FROM JEE_Person";
+		String query = "SELECT * FROM YEARBOOK_Person";
 		Statement st;
 		ResultSet rs;
 		
-		try (Connection c = tools.newConnection()) {
-			st = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		try (Connection conn = tools.newConnection()) {
+			st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			rs = st.executeQuery(query);
 			
 			while(rs.next()) {
@@ -214,8 +193,8 @@ public class PersonDao implements IPersonDao {
 			
 		} catch (SQLException | DatabaseManagerException e){
 			try {
-				throw new PersonDaoException("error : no row deleted");
-			} catch (PersonDaoException e1) {
+				throw new DAOException("error : no row deleted");
+			} catch (DAOException e1) {
 				e1.getMessage();
 			}
 		}
@@ -225,10 +204,10 @@ public class PersonDao implements IPersonDao {
 	 * Calcul le nombre de personnes de la base.
 	 * 
 	 * @return Le nombre de personne.
-	 * @throws PersonDaoException Si exception levé avant.
+	 * @throws DAOException Si exception levé avant.
 	 * @throws DatabaseManagerException Si la connection n'est pas établie.
 	 */
-	public int countPersons() throws PersonDaoException, DatabaseManagerException {
+	public int countPersons() throws DAOException, DatabaseManagerException {
 		return findAllPersons().size();
 	}
 }
