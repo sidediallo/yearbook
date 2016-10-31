@@ -32,9 +32,9 @@ public class Person {
 	 * L'identifiant d'une personne. Cet id n'est pas modifiable.
 	 * 
 	 * @see Person#getId()
-	 * @see Person#setId(long)
+	 * @see Person#setId(Long)
 	 */
-	private long id;
+	private Long id;
 	
 	/**
 	 * Le nom d'une personne
@@ -88,9 +88,9 @@ public class Person {
 	 * L'identifiant du groupe auquel appartient la personne.
 	 * 
 	 * @see Person#getIdG()
-	 * @see Person#setIdG(long idG)
+	 * @see Person#setIdG(Long idG)
 	 */
-	private long idG;
+	private Long idG;
 	
 	/**
 	 * Constructeur par défaut de la classe Person.
@@ -106,7 +106,7 @@ public class Person {
 	 * @return 
 	 * 		L'identifiant.
 	 */
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 	
@@ -115,7 +115,7 @@ public class Person {
 	 * 
 	 * @param id Le nouveau id.
 	 */
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
@@ -234,7 +234,7 @@ public class Person {
 	 * 
 	 * @return L'identifiant du groupe auquel la persenne appartient.
 	 */
-	public long getIdG() {
+	public Long getIdG() {
 		return idG;
 	}
 
@@ -243,7 +243,7 @@ public class Person {
 	 * 
 	 * @param group Le nouveau groupe.
 	 */
-	public void setIdG(long idG) {
+	public void setIdG(Long idG) {
 		this.idG = idG;
 	}
 }
