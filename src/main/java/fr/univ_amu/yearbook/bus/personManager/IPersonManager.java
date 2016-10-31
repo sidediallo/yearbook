@@ -1,9 +1,9 @@
-package main.java.fr.univ_amu.yearbook.interfaces;
+package fr.univ_amu.yearbook.bus.personManager;
 
 import java.util.Collection;
 
-import main.java.fr.univ_amu.yearbook.bean.Person;
-import main.java.fr.univ_amu.yearbook.bus.personManager.exception.PersonManagerException;
+import fr.univ_amu.yearbook.bean.Person;
+import fr.univ_amu.yearbook.bus.personManager.exception.PersonManagerException;
 
 /**
  * <b>IPersonManager</b> est l'interface qui gère les méthodes
