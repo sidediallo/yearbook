@@ -132,12 +132,14 @@ public class PersonDao implements IPersonDao {
 	 * 		   ou si la personne qu'on souhaite mettre à jour n'existe pas.
 	 * @see Person
 	 */
-	public void saveOrUpdatePerson(Person p, boolean option) throws PersonDaoException {
+	public void saveOrUpdatePerson(Person p) throws PersonDaoException {
 		String query = "SELECT * FROM JEE_Person";
 		Statement st;
 		ResultSet rs;
 		
-		if (option) {
+		boolean test = true;
+		
+		if (test) {
 			query = "INSERT INTO JEE_Person (lastName, firstName, email, homePage, birthDate, pwdG, idG)"
 					+ "VALUES (?, ?, ?, ?, STR_TO_DATE(?,'%Y/%m/%d'), PASSWORD(?), ?)";
 		}
