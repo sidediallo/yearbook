@@ -1,0 +1,21 @@
+# Fichiers et répertoire à ne pas inclure dans le versioning
+# Fichiers de config et répertoires de config à ne pas inclure dans le versioning
+
+/build/
+/bin/
+/target/
+ 
+*.jar
+*.war
+*.ear
+*.db
+*.class
+*.*~
+
+# Eclipse
+.project
+.classpath
+.settings
+
+# Mac
+.DS_Store
