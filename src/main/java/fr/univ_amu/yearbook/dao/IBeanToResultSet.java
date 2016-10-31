@@ -22,5 +22,5 @@ public interface IBeanToResultSet<T> {
 	 * @return Le ResultSet correspondant ou null.
 	 * @throws DAOException Si une exception est levée.
 	 */
-	int toResultSet(T bean, String query, String[] parametersList) throws DAOException;
+	public int insertOrUpdate(T bean, String query, String[] parametersList) throws DAOException;
 }
