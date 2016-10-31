@@ -11,7 +11,7 @@ public class Group {
 	/**
 	 * The identifier of this group.
 	 */
-	private Integer id;
+	private long id;
 	
 	/**
 	 * The name of this group.
@@ -29,7 +29,7 @@ public class Group {
 	 * Returns the identifier of this Group.
 	 * @return the identifier of this Group.
 	 */
-	public Integer getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -37,7 +37,7 @@ public class Group {
 	 * Sets the value in parameter as the identifier of this Group.
 	 * @param id the identifier for the Group.
 	 */
-	public void setId(Integer id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -55,6 +55,5 @@ public class Group {
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-	
+	}	
 }
