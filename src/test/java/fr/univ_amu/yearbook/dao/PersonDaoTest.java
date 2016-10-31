@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import fr.univ_amu.yearbook.bean.Person;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
-import fr.univ_amu.yearbook.dao.exception.PersonDaoException;
+import fr.univ_amu.yearbook.dao.exception.DAOException;
 import fr.univ_amu.yearbook.dao.impl.PersonDao;
 
 public class PersonDaoTest {
@@ -41,7 +41,7 @@ public class PersonDaoTest {
 	}
 
 	@Ignore
-	public void testFindPerson() throws PersonDaoException, DatabaseManagerException {
+	public void testFindPerson() throws DAOException, DatabaseManagerException {
 		Person p1 = dao.findPerson(1);
 		Person p2 = dao.findPerson(30);
 		
@@ -50,7 +50,7 @@ public class PersonDaoTest {
 	}
 
 	@Ignore
-	public void testFindAllPersons() throws PersonDaoException, DatabaseManagerException {
+	public void testFindAllPersons() throws DAOException, DatabaseManagerException {
 		List<Person> p = (List<Person>) dao.findAllPersons();
 		assertEquals(4, p.size());
 	}
@@ -61,7 +61,7 @@ public class PersonDaoTest {
 	}
 
 	@Ignore
-	public void testRemovePersonLong() throws PersonDaoException, DatabaseManagerException {
+	public void testRemovePersonLong() throws DAOException, DatabaseManagerException {
 		int count = dao.countPersons();
 		
 		dao.removePerson(10);
@@ -69,23 +69,23 @@ public class PersonDaoTest {
 	}
 
 	@Ignore
-	public void testRemovePersonPerson() throws PersonDaoException, DatabaseManagerException {
+	public void testRemovePersonPerson() throws DAOException, DatabaseManagerException {
 		Person p = new Person();
 		int count = dao.countPersons();
 		
-		p.setId(2);
+		p.setId((long) 2);
 		dao.removePerson(p);
 		assertEquals(count - 1, dao.countPersons());
 	}
 
 	@Ignore
-	public void testRemoveAllPersons() throws PersonDaoException, DatabaseManagerException {
+	public void testRemoveAllPersons() throws DAOException, DatabaseManagerException {
 		dao.removeAllPersons();
 		assertEquals(0, dao.countPersons());
 	}
 
 	@Ignore
-	public void testNumberOfPersons() throws PersonDaoException, DatabaseManagerException {
+	public void testNumberOfPersons() throws DAOException, DatabaseManagerException {
 		assertEquals(10,dao.countPersons());
 	}
 }
