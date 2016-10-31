@@ -1,4 +1,4 @@
-package main.java.fr.univ_amu.yearbook.bean;
+package fr.univ_amu.yearbook.bean;
 
 import java.sql.Date;
 
