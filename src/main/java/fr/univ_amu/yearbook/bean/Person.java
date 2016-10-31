@@ -21,6 +21,7 @@ import java.sql.Date;
  * </p>
  * 
  * @see java.sql.Date
+ * @see Group
  * 
  * @author Aboubacar Sidy DIALLO & Inoussa ZONGO
  * @version 1.0
@@ -87,10 +88,10 @@ public class Person {
 	/**
 	 * L'identifiant du groupe auquel appartient la personne.
 	 * 
-	 * @see Person#getIdG()
-	 * @see Person#setIdG(long idG)
+	 * @see Person#getGroup()
+	 * @see Person#setGroup(Group)
 	 */
-	private long idG;
+	private Group group;
 	
 	/**
 	 * Constructeur par défaut de la classe Person.
@@ -232,18 +233,18 @@ public class Person {
 	/**
 	 * Retourne le groupe auquel appartient la personne.
 	 * 
-	 * @return L'identifiant du groupe auquel la persenne appartient.
+	 * @return Le groupe de la personne.
 	 */
-	public long getIdG() {
-		return idG;
+	public Group getGroup() {
+		return group;
 	}
 
 	/**
-	 * Met à jour le numero du groupe auquel appartient la personne.
+	 * Met à jour du groupe auquel appartient la personne.
 	 * 
 	 * @param group Le nouveau groupe.
 	 */
-	public void setIdG(long idG) {
-		this.idG = idG;
+	public void setIdG(Group group) {
+		this.group = group;
 	}
 }
