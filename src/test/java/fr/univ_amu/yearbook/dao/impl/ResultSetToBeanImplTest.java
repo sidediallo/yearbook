@@ -57,10 +57,10 @@ public class ResultSetToBeanImplTest {
 		ResultSet pkrs = pstm.getGeneratedKeys();
 		
 		pkrs.next();
-		Integer groupId = pkrs.getInt(1);
+		Long groupId = pkrs.getLong(1);
 		
 		PreparedStatement pstm2 = conn.prepareStatement("SELECT * FROM groupe WHERE id = ?");
-		pstm2.setInt(1, groupId);
+		pstm2.setLong(1, groupId);
 		
 		ResultSet rs = pstm2.executeQuery();
 		
