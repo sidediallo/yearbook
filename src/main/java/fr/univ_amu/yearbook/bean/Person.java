@@ -35,7 +35,7 @@ public class Person {
 	 * @see Person#getId()
 	 * @see Person#setId(long)
 	 */
-	private long id;
+	private Long id;
 	
 	/**
 	 * Le nom d'une personne
@@ -88,10 +88,10 @@ public class Person {
 	/**
 	 * L'identifiant du groupe auquel appartient la personne.
 	 * 
-	 * @see Person#getGroup()
-	 * @see Person#setGroup(Group)
+	 * @see Person#getIdG()
+	 * @see Person#setIdG(Long)
 	 */
-	private Group group;
+	private Long idG;
 	
 	/**
 	 * Constructeur par défaut de la classe Person.
@@ -231,12 +231,12 @@ public class Person {
 	}
 
 	/**
-	 * Retourne le groupe auquel appartient la personne.
+	 * Retourne le numéro du auquel appartient la personne.
 	 * 
 	 * @return Le groupe de la personne.
 	 */
-	public Group getGroup() {
-		return group;
+	public Long getIdG() {
+		return idG;
 	}
 
 	/**
@@ -244,7 +244,7 @@ public class Person {
 	 * 
 	 * @param group Le nouveau groupe.
 	 */
-	public void setIdG(Group group) {
-		this.group = group;
+	public void setIdG(Long idG) {
+		this.idG = idG;
 	}
 }
