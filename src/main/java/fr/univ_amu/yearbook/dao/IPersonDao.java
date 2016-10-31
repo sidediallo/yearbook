@@ -48,7 +48,7 @@ public interface IPersonDao {
 	 * 		   ou si la personne qu'on souhaite mettre à jour n'existe pas.
 	 * @see Person
 	 */
-	public void saveOrUpdatePerson(Person p, boolean option) throws PersonDaoException;
+	public void saveOrUpdatePerson(Person p) throws PersonDaoException;
 	
 	/**
 	 * Suppression de la personne associé à l'identifiant id.
