@@ -1,4 +1,4 @@
-package main.java.fr.univ_amu.yearbook.dao.impl;
+package fr.univ_amu.yearbook.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,11 +8,10 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import main.java.fr.univ_amu.yearbook.bean.Person;
-import main.java.fr.univ_amu.yearbook.dao.exception.PersonDaoException;
-import main.java.fr.univ_amu.yearbook.interfaces.IPersonDao;
-import main.java.fr.univ_amu.yearbook.tools.JdbcTools;
-import main.java.fr.univ_amu.yearbook.tools.exception.JdbcToolsException;
+import fr.univ_amu.yearbook.bean.Person;
+import fr.univ_amu.yearbook.dao.IPersonDao;
+import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
+import fr.univ_amu.yearbook.dao.exception.PersonDaoException;
 
 /**
  * <b>PersonDao</b> est la classe qui implemente l'interface
@@ -42,13 +41,14 @@ public class PersonDao implements IPersonDao {
 	 * 
 	 * @see 
 	 */
-	JdbcTools tools;
+	DatabaseManagerImpl tools;
 	
 	/**
 	 * Initialisation de l'objet tools.
+	 * @throws DatabaseManagerException 
 	 */
-	public void init() {
-		tools = new JdbcTools();
+	public void init() throws DatabaseManagerException {
+		tools = new DatabaseManagerImpl();
 		tools.init();
 	}
 	
@@ -59,9 +59,9 @@ public class PersonDao implements IPersonDao {
 	 * @return
 	 * 		La personne dont l'indentifiant est rentré en paramètre de la méthode. 
 	 * @throws PersonDaoException Si la personne rattachée à l'id n'existe pas.
-	 * @throws JdbcToolsException Si la connection n'est pas établie.
+	 * @throws DatabaseManagerException Si la connection n'est pas établie.
 	 */
-	public Person findPerson(long id) throws PersonDaoException, JdbcToolsException {
+	public Person findPerson(long id) throws PersonDaoException, DatabaseManagerException {
 		Person p = new Person();
 		ResultSet rs;
 		String query = "SELECT * FROM JEE_Person WHERE idP = ?";
@@ -94,9 +94,9 @@ public class PersonDao implements IPersonDao {
 	 * @return
 	 * 		La liste de personnes.
 	 * @throws PersonDaoException S'il n'y a aucune personne.
-	 * @throws JdbcToolsException Si la connection n'est pas établie.
+	 * @throws DatabaseManagerException Si la connection n'est pas établie.
 	 */
-	public Collection<Person> findAllPersons() throws PersonDaoException, JdbcToolsException {
+	public Collection<Person> findAllPersons() throws PersonDaoException, DatabaseManagerException {
 		Collection<Person> cp = new LinkedList<Person>();
 		Person p = new Person();
 		ResultSet rs;
@@ -153,7 +153,7 @@ public class PersonDao implements IPersonDao {
 			// À implémenter
 			
 			rs.updateRow();
-		} catch (SQLException | JdbcToolsException e){
+		} catch (SQLException | DatabaseManagerException e){
 			try {
 				throw new PersonDaoException("error : no row updated or inserted");
 			} catch (PersonDaoException e1) {
@@ -175,7 +175,7 @@ public class PersonDao implements IPersonDao {
 			st = c.prepareStatement(query);
 			st.setLong(1, id);
 			st.executeUpdate();
-		} catch (SQLException | JdbcToolsException e){
+		} catch (SQLException | DatabaseManagerException e){
 			try {
 				throw new PersonDaoException("error : no row deleted");
 			} catch (PersonDaoException e1) {
@@ -210,7 +210,7 @@ public class PersonDao implements IPersonDao {
 				rs.deleteRow();
 			}
 			
-		} catch (SQLException | JdbcToolsException e){
+		} catch (SQLException | DatabaseManagerException e){
 			try {
 				throw new PersonDaoException("error : no row deleted");
 			} catch (PersonDaoException e1) {
@@ -224,9 +224,9 @@ public class PersonDao implements IPersonDao {
 	 * 
 	 * @return Le nombre de personne.
 	 * @throws PersonDaoException Si exception levé avant.
-	 * @throws JdbcToolsException Si la connection n'est pas établie.
+	 * @throws DatabaseManagerException Si la connection n'est pas établie.
 	 */
-	public int countPersons() throws PersonDaoException, JdbcToolsException {
+	public int countPersons() throws PersonDaoException, DatabaseManagerException {
 		return findAllPersons().size();
 	}
 }
