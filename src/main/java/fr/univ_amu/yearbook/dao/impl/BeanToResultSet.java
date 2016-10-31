@@ -40,7 +40,7 @@ public class BeanToResultSet<T> implements IBeanToResultSet<T> {
 	 * @return Le ResultSet correspondant ou null.
 	 * @throws DAOException Si une exception est levée.
 	 */
-	public int toResultSet(T bean, String query, String[] parametersList) throws DAOException {
+	public int insertOrUpdate(T bean, String query, String[] parametersList) throws DAOException {
 		try (Connection c = tools.newConnection()){
 			PreparedStatement st = c.prepareStatement(query);
 			Method[] methods = bean.getClass().getMethods();
