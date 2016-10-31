@@ -1,10 +1,10 @@
-package main.java.fr.univ_amu.yearbook.bus.personManager.impl;
+package fr.univ_amu.yearbook.bus.personManager.impl;
 
 import java.util.Collection;
 
-import main.java.fr.univ_amu.yearbook.bean.Person;
-import main.java.fr.univ_amu.yearbook.bus.personManager.exception.PersonManagerException;
-import main.java.fr.univ_amu.yearbook.interfaces.IPersonManager;
+import fr.univ_amu.yearbook.bean.Person;
+import fr.univ_amu.yearbook.bus.personManager.IPersonManager;
+import fr.univ_amu.yearbook.bus.personManager.exception.PersonManagerException;
 
 public class PersonManager implements IPersonManager {
 
