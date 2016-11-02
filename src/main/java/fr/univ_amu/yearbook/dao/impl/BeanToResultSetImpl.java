@@ -6,13 +6,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import fr.univ_amu.yearbook.dao.IBeanToResultSet;
 import fr.univ_amu.yearbook.dao.exception.DAOException;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 
 /**
  * <b>BeanToResultSetImpl</b> implémente l'interface
- * {@link IBeanToResultSet#toResultSet(Object, String, String[])}.
+ * {@link IBeanToResultSet}.
  * Elle permet la màj de la table correspondante au bean dans la bdd.
  *
  * @see DAOException
@@ -21,26 +26,34 @@ import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
  * @version 1.0
  *
  */
+@Repository("beanToResultSetImpl")
 public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	
 	/**
 	 * Gère la connexion à la base de données.
 	 * 
-	 * @see BeanToResultSetImpl<T>#BeanToResultSetImpl()
-	 * @see BeanToResultSetImpl<T>#insertOrUpdate(T, String, String[])
+	 * @see {@link #getDbManager()}
+	 * @see {@link #setDbManager(DatabaseManagerImpl)}
+	 * @see {@link #init()}
+	 * @see {@link #insertOrUpdate(T, String, String[])}
 	 */
-	DatabaseManagerImpl dbManager;
+	@Autowired
+	private DatabaseManagerImpl dbManager;
 	
 	/**
 	 * Constructeur par défaut de la classe
 	 */
 	public BeanToResultSetImpl() {
-		dbManager = new DatabaseManagerImpl();
-		try {
-			dbManager.init();
-		} catch (DatabaseManagerException e) {
-			e.getMessage();
-		}
+		super();
+	}
+	
+	/**
+	 * Initialisation de l'objet dbManager.
+	 * @throws DatabaseManagerException 
+	 */
+	@PostConstruct
+	public void init() throws DatabaseManagerException {
+		dbManager.init();
 	}
 	
 	/**
@@ -52,6 +65,7 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	 * @return Le nombre de lignes modifiées ou -1.
 	 * @throws DAOException Si une exception est levée.
 	 */
+	@Override
 	public int insertOrUpdate(T bean, String query, String[] parametersList) throws DAOException {
 		try (Connection c = dbManager.newConnection()){
 			PreparedStatement st = c.prepareStatement(query);
@@ -75,11 +89,29 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	 * Vérifie qu'une méthode est un getter.
 	 * 
 	 * @param method La méthode.
-	 * @return True si c'est un getter et false sinon.
+	 * @return true si c'est un getter et false sinon.
 	 */
-	public boolean isGetter(Method method) {
+	private boolean isGetter(Method method) {
 		return (method.getName().startsWith("get"))
 				&& (method.getParameterTypes().length == 0)
 				&& (!Void.class.equals(method.getReturnType()));
+	}
+	
+	/**
+	 * Retourne le DataBaseManager.
+	 * 
+	 * @return Le DataBaseManager.
+	 */
+	public DatabaseManagerImpl getDbManager() {
+		return dbManager;
+	}
+
+	/**
+	 * Mise à jour du DataBaseManager.
+	 * 
+	 * @param dbManager Le nouveau DataBaseManager.
+	 */
+	public void setDbManager(DatabaseManagerImpl dbManager) {
+		this.dbManager = dbManager;
 	}
 }
