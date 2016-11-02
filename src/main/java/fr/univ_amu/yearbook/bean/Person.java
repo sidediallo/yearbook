@@ -89,7 +89,7 @@ public class Person {
 	 * L'identifiant du groupe auquel appartient la personne.
 	 * 
 	 * @see Person#getIdG()
-	 * @see Person#setIdG(Long)
+	 * Person#setIdG(Long idG)
 	 */
 	private Long idG;
 	
