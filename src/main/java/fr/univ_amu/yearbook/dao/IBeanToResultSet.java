@@ -15,11 +15,12 @@ import fr.univ_amu.yearbook.dao.exception.DAOException;
 public interface IBeanToResultSet<T> {
 	
 	/**
+	 * Fait la màj de la table correspondante au bean dans la bdd.
 	 * 
 	 * @param bean Le bean.
 	 * @param query La requête.
 	 * @param parametersList La liste des paramètres.
-	 * @return Le ResultSet correspondant ou null.
+	 * @return Le nombre de lignes modifiées ou -1.
 	 * @throws DAOException Si une exception est levée.
 	 */
 	public int insertOrUpdate(T bean, String query, String[] parametersList) throws DAOException;
