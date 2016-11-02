@@ -6,8 +6,8 @@ import fr.univ_amu.yearbook.bean.Person;
 import fr.univ_amu.yearbook.bus.personManager.IPersonManager;
 import fr.univ_amu.yearbook.bus.personManager.exception.PersonManagerException;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
-import fr.univ_amu.yearbook.dao.exception.PersonDaoException;
-import fr.univ_amu.yearbook.dao.impl.PersonDao;
+import fr.univ_amu.yearbook.dao.exception.DAOException;
+import fr.univ_amu.yearbook.dao.impl.PersonDaoImpl;
 
 /**
  * <b>PersonManager</b> implémente IPersonManager.
@@ -21,7 +21,7 @@ import fr.univ_amu.yearbook.dao.impl.PersonDao;
  *
  */
 public class PersonManager implements IPersonManager {
-	private PersonDao dao = new PersonDao();
+	private PersonDaoImpl dao = new PersonDaoImpl();
 
 	/**
 	 * Recherche et renvoie la personne associée à l'identifiant.
@@ -34,7 +34,7 @@ public class PersonManager implements IPersonManager {
 	public Person findPerson(long id) throws PersonManagerException {
 		try {
 			return dao.findPerson(id);
-		} catch (PersonDaoException | DatabaseManagerException e) {
+		} catch (DAOException | DatabaseManagerException e) {
 			e.getMessage();
 		}
 		return null;
@@ -49,7 +49,7 @@ public class PersonManager implements IPersonManager {
 	public Collection<Person> findAllPersons() {
 		try {
 			return dao.findAllPersons();
-		} catch (PersonDaoException | DatabaseManagerException e) {
+		} catch (DAOException | DatabaseManagerException e) {
 			e.getMessage();
 		}
 		return null;
@@ -66,7 +66,7 @@ public class PersonManager implements IPersonManager {
 	public void saveOrUpdatePerson(Person p) throws PersonManagerException {
 		try {
 			dao.saveOrUpdatePerson(p);
-		} catch (PersonDaoException e) {
+		} catch (DAOException e) {
 			e.getMessage();
 		}
 	}
