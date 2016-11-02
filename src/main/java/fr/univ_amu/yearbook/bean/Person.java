@@ -33,7 +33,7 @@ public class Person {
 	 * L'identifiant d'une personne. Cet id n'est pas modifiable.
 	 * 
 	 * @see Person#getId()
-	 * @see Person#setId(long)
+	 * @see Person#setId(Long)
 	 */
 	private Long id;
 	
@@ -107,7 +107,7 @@ public class Person {
 	 * @return 
 	 * 		L'identifiant.
 	 */
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 	
@@ -116,7 +116,7 @@ public class Person {
 	 * 
 	 * @param id Le nouveau id.
 	 */
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
