@@ -48,7 +48,7 @@ public class ResultSetToBeanImplTest {
 	@Test
 	public void testToBean() throws DatabaseManagerException, SQLException {
 		Connection conn = connManager.newConnection();
-		PreparedStatement pstm = conn.prepareStatement("INSERT INTO YEARBOOK_Group VALUES(?,?)",Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement pstm = conn.prepareStatement("INSERT INTO groupe values(?,?)",Statement.RETURN_GENERATED_KEYS);
 		pstm.setObject(1, null);
 		Timestamp timestamp =  new Timestamp(System.currentTimeMillis());
 		String groupName = "Group "+timestamp.toString();
@@ -59,7 +59,7 @@ public class ResultSetToBeanImplTest {
 		pkrs.next();
 		Long groupId = pkrs.getLong(1);
 		
-		PreparedStatement pstm2 = conn.prepareStatement("SELECT * FROM YEARBOOK_Group WHERE id = ?");
+		PreparedStatement pstm2 = conn.prepareStatement("SELECT * FROM groupe WHERE id = ?");
 		pstm2.setLong(1, groupId);
 		
 		ResultSet rs = pstm2.executeQuery();
