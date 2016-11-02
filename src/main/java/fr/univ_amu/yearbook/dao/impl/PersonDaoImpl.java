@@ -8,8 +8,10 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import fr.univ_amu.yearbook.bean.Person;
 import fr.univ_amu.yearbook.dao.IPersonDao;
@@ -18,7 +20,7 @@ import fr.univ_amu.yearbook.dao.exception.DAOException;
 
 /**
  * <b>PersonDaoImpl</b> est la classe qui implemente l'interface
- * IPersonDao.
+ * {@link IPersonDao}.
  * 
  * <p>
  * Cette classe est caractérisée par :
@@ -38,17 +40,26 @@ import fr.univ_amu.yearbook.dao.exception.DAOException;
  * @version 1.0
  *
  */
-@Service("personDao")
+@Repository("personDaoImpl")
 public class PersonDaoImpl implements IPersonDao {
 	
 	/**
 	 * L'objet qui établi la connection avec la base.
 	 * 
-	 * @see 
+	 * @see {@link #getDbManager()}
+	 * @see {@link #setDbManager(DatabaseManagerImpl)}
+	 * @see {@link #init()}
+	 * @see {@link #findPerson(long)}
+	 * @see {@link #PersonDaoImpl#findAllPersons()}
+	 * @see {@link #PersonDaoImpl#removePerson(long)}
+	 * 
 	 */
 	@Autowired
-	DatabaseManagerImpl dbManager;
+	private DatabaseManagerImpl dbManager;
 	
+	/**
+	 * Le constructeur par défaut de la classe.
+	 */
 	public PersonDaoImpl() {
 		super();
 	}
@@ -57,8 +68,8 @@ public class PersonDaoImpl implements IPersonDao {
 	 * Initialisation de l'objet dbManager.
 	 * @throws DatabaseManagerException 
 	 */
+	@PostConstruct
 	public void init() throws DatabaseManagerException {
-		dbManager = new DatabaseManagerImpl();
 		dbManager.init();
 	}
 	
@@ -71,27 +82,23 @@ public class PersonDaoImpl implements IPersonDao {
 	 * @throws DAOException Si la personne rattachée à l'id n'existe pas.
 	 * @throws DatabaseManagerException Si la connection n'est pas établie.
 	 */
+	@Override
 	public Person findPerson(long id) throws DAOException, DatabaseManagerException {
 		
 		try (Connection conn = dbManager.newConnection()) {
 			ResultSetToBeanImpl<Person> mapper = new ResultSetToBeanImpl<Person>(Person.class);
-			String query = "SELECT * FROM YEARBOOK_Person WHERE idP = ?";
+			String query = "SELECT * FROM YEARBOOK_Person WHERE id = ?";			
 			PreparedStatement st = conn.prepareStatement(query);
 			
 			st.setLong(1, id);
 			ResultSet rs = st.executeQuery();
 			
-			return mapper.toBean(rs); 
+			if (rs.next())
+				return mapper.toBean(rs);
 		} catch (SQLException e){
 			throw new DAOException(e.getMessage());
 		}
-	}
-	
-	public static void main(String[] args) throws DatabaseManagerException {
-		PersonDaoImpl p = new PersonDaoImpl();
-		
-		p.init();
-		p.findPerson(2);
+		return null;
 	}
 
 	/**
@@ -102,6 +109,7 @@ public class PersonDaoImpl implements IPersonDao {
 	 * @throws DAOException S'il n'y a aucune personne.
 	 * @throws DatabaseManagerException Si la connection n'est pas établie.
 	 */
+	@Override
 	public Collection<Person> findAllPersons() throws DAOException, DatabaseManagerException {
 		
 		try (Connection conn = dbManager.newConnection()) {
@@ -127,36 +135,14 @@ public class PersonDaoImpl implements IPersonDao {
 	 * 		   ou si la personne qu'on souhaite mettre à jour n'existe pas.
 	 * @see Person
 	 */
+	@Override
 	public void saveOrUpdatePerson(Person p) throws DAOException {
-		String query = "SELECT * FROM YEARBOOK_Person";
-		Statement st;
-		ResultSet rs;
+		BeanToResultSetImpl<Person> mapp = new BeanToResultSetImpl<Person>();
 		
-		boolean test = true;
+		String query = "";
+		String[] parametersList = {""};
 		
-		if (test) {
-			query = "INSERT INTO JEE_Person (lastName, firstName, email, homePage, birthDate, pwdG, idG)"
-					+ "VALUES (?, ?, ?, ?, STR_TO_DATE(?,'%Y/%m/%d'), PASSWORD(?), ?)";
-		}
-		else {
-			query = "UPDATE JEE_Person SET lastName = ?, firstName = ?, email = ?, homePage = ?, birthDate = ?, pwdG = ?, idG = ?"
-					+ "WHERE idP = ?";
-		}
-		
-		try (Connection c = dbManager.newConnection()) {
-			st = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-			rs = st.executeQuery(query);
-			
-			// À implémenter
-			
-			rs.updateRow();
-		} catch (SQLException | DatabaseManagerException e){
-			try {
-				throw new DAOException("error : no row updated or inserted");
-			} catch (DAOException e1) {
-				e1.getMessage();
-			}
-		}
+		mapp.insertOrUpdate(p, query, parametersList);
 	}
 
 	/**
@@ -164,8 +150,9 @@ public class PersonDaoImpl implements IPersonDao {
 	 * 
 	 * @param id L'id correspondant à la personne.
 	 */
+	@Override
 	public void removePerson(long id) {
-		String query = "DELETE FROM YEARBOOK_Person WHERE idP = ?";
+		String query = "DELETE FROM YEARBOOK_Person WHERE id = ?";
 		PreparedStatement st;
 		
 		try (Connection conn = dbManager.newConnection()) {
@@ -187,6 +174,7 @@ public class PersonDaoImpl implements IPersonDao {
 	 * @param p La personne à supprimer
 	 * @see Person
 	 */
+	@Override
 	public void removePerson(Person p) {
 		removePerson(p.getId());
 	}
@@ -194,6 +182,7 @@ public class PersonDaoImpl implements IPersonDao {
 	/**
 	 * Suppression de toutes les personnes de la base.
 	 */
+	@Override
 	public void removeAllPersons() {
 		String query = "SELECT * FROM YEARBOOK_Person";
 		Statement st;
@@ -223,19 +212,24 @@ public class PersonDaoImpl implements IPersonDao {
 	 * @throws DAOException Si exception levé avant.
 	 * @throws DatabaseManagerException Si la connection n'est pas établie.
 	 */
+	@Override
 	public int countPersons() throws DAOException, DatabaseManagerException {
 		return findAllPersons().size();
 	}
 
 	/**
-	 * @return the dbManager
+	 * Retourne le DataBaseManager.
+	 * 
+	 * @return Le DataBaseManager.
 	 */
 	public DatabaseManagerImpl getDbManager() {
 		return dbManager;
 	}
 
 	/**
-	 * @param dbManager the dbManager to set
+	 * Mise à jour du DataBaseManager.
+	 * 
+	 * @param dbManager Le nouveau DataBaseManager.
 	 */
 	public void setDbManager(DatabaseManagerImpl dbManager) {
 		this.dbManager = dbManager;
