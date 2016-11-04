@@ -52,8 +52,12 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	 * @throws DatabaseManagerException 
 	 */
 	@PostConstruct
-	public void init() throws DatabaseManagerException {
-		dbManager.init();
+	public void init() {
+		try {
+			dbManager.init();
+		} catch (DatabaseManagerException e) {
+			throw new DAOException(e.getCause());
+		}
 	}
 	
 	/**
