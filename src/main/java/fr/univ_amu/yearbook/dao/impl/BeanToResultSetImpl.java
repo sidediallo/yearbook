@@ -61,19 +61,19 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	 * 
 	 * @param bean Le bean.
 	 * @param query La requête.
-	 * @param parametersList La liste des paramètres.
+	 * @param columnNameList La liste des paramètres.
 	 * @return Le nombre de lignes modifiées ou -1.
 	 * @throws DAOException Si une exception est levée.
 	 */
 	@Override
-	public int insertOrUpdate(T bean, String query, String[] parametersList) throws DAOException {
+	public int insertOrUpdate(T bean, String query, String[] columnNameList) throws DAOException {
 		try (Connection c = dbManager.newConnection()){
 			PreparedStatement st = c.prepareStatement(query);
 			Method[] methods = bean.getClass().getMethods();
 			
-			for (int i = 0; i < parametersList.length; i++) {
+			for (int i = 0; i < columnNameList.length; i++) {
 				for (Method m : methods) {
-					if (isGetter(m) && m.getName().compareToIgnoreCase("get" + parametersList[i]) == 0) {
+					if (isGetter(m) && m.getName().compareToIgnoreCase("get" + columnNameList[i]) == 0) {
 						st.setObject(i+1, m.invoke(bean));
 					}
 				}
