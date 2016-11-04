@@ -19,9 +19,9 @@ public interface IBeanToResultSet<T> {
 	 * 
 	 * @param bean Le bean.
 	 * @param query La requête.
-	 * @param parametersList La liste des paramètres.
+	 * @param columnNameList La liste des paramètres.
 	 * @return Le nombre de lignes modifiées ou -1.
 	 * @throws DAOException Si une exception est levée.
 	 */
-	public int insertOrUpdate(T bean, String query, String[] parametersList) throws DAOException;
+	public int insertOrUpdate(T bean, String query, String[] columnNameList) throws DAOException;
 }
