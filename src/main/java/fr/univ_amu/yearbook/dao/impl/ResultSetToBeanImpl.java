@@ -38,13 +38,12 @@ public class ResultSetToBeanImpl<T> implements IResultSetToBean<T>{
 			for(int i=0;i<columCount;i++){
 				String columnName = metaData.getColumnName(i+1);
 				Method method = searchMethod(methods, columnName);
-				Class<?> paramClass = (method.getParameterTypes())[0];
-				if(method != null) method.invoke(bean, paramClass.cast(resultSet.getObject(i+1)));
+				if(method != null) method.invoke(bean, resultSet.getObject(i+1));
 			}
 			return bean;
 			
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SQLException e) {
-			throw new DAOException(e);
+			throw new DAOException(e.getMessage(), e);
 		}
 	}
 	

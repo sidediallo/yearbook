@@ -21,6 +21,7 @@ import java.sql.Date;
  * </p>
  * 
  * @see java.sql.Date
+ * @see Group
  * 
  * @author Aboubacar Sidy DIALLO & Inoussa ZONGO
  * @version 1.0
@@ -32,9 +33,9 @@ public class Person {
 	 * L'identifiant d'une personne. Cet id n'est pas modifiable.
 	 * 
 	 * @see Person#getId()
-	 * @see Person#setId(long)
+	 * @see Person#setId(Long)
 	 */
-	private long id;
+	private Long id;
 	
 	/**
 	 * Le nom d'une personne
@@ -88,9 +89,9 @@ public class Person {
 	 * L'identifiant du groupe auquel appartient la personne.
 	 * 
 	 * @see Person#getIdG()
-	 * @see Person#setIdG(long idG)
+	 * Person#setIdG(Long idG)
 	 */
-	private long idG;
+	private Long idG;
 	
 	/**
 	 * Constructeur par défaut de la classe Person.
@@ -106,7 +107,7 @@ public class Person {
 	 * @return 
 	 * 		L'identifiant.
 	 */
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 	
@@ -115,7 +116,7 @@ public class Person {
 	 * 
 	 * @param id Le nouveau id.
 	 */
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
@@ -230,20 +231,20 @@ public class Person {
 	}
 
 	/**
-	 * Retourne le groupe auquel appartient la personne.
+	 * Retourne le numéro du auquel appartient la personne.
 	 * 
-	 * @return L'identifiant du groupe auquel la persenne appartient.
+	 * @return Le groupe de la personne.
 	 */
-	public long getIdG() {
+	public Long getIdG() {
 		return idG;
 	}
 
 	/**
-	 * Met à jour le numero du groupe auquel appartient la personne.
+	 * Met à jour du groupe auquel appartient la personne.
 	 * 
 	 * @param group Le nouveau groupe.
 	 */
-	public void setIdG(long idG) {
+	public void setIdG(Long idG) {
 		this.idG = idG;
 	}
 }
