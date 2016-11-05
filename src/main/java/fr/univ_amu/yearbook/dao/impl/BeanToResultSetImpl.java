@@ -84,9 +84,8 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 			}
 			return st.executeUpdate();
 		} catch(SQLException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | DatabaseManagerException e) {
-			e.getMessage();
+			throw new DAOException(e.getCause());
 		}
-		return -1;
 	}
 	
 	/**
