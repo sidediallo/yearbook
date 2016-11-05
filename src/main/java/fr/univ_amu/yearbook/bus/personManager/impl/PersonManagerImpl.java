@@ -65,7 +65,7 @@ public class PersonManagerImpl implements IPersonManager {
 	public Person findPerson(long id) throws PersonManagerException {
 		try {
 			return dao.findPerson(id);
-		} catch (DAOException | DatabaseManagerException e) {
+		} catch (DAOException e) {
 			e.getMessage();
 		}
 		return null;
@@ -81,7 +81,7 @@ public class PersonManagerImpl implements IPersonManager {
 	public Collection<Person> findAllPersons() {
 		try {
 			return dao.findAllPersons();
-		} catch (DAOException | DatabaseManagerException e) {
+		} catch (DAOException e) {
 			e.getMessage();
 		}
 		return null;
