@@ -74,6 +74,11 @@ public class ResultSetToBeanImplTest {
 		
 		assertTrue(groupId == group.getId());
 		assertTrue(groupName.equals(group.getName()));
+		
+		//Cleaning database
+		PreparedStatement removeQuery = conn.prepareStatement("DELETE FROM yearbook_group where id = ?;");
+		removeQuery.setObject(1, group.getId());
+		removeQuery.executeUpdate();
 	}
 
 }
