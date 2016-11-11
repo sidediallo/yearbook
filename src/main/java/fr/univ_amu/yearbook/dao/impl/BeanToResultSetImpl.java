@@ -4,7 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.annotation.PostConstruct;
 
@@ -72,7 +74,7 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	@Override
 	public int insertOrUpdate(T bean, String query, String[] columnNameList) throws DAOException {
 		try (Connection c = dbManager.newConnection()){
-			PreparedStatement st = c.prepareStatement(query);
+			PreparedStatement st = c.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 			Method[] methods = bean.getClass().getMethods();
 			
 			for (int i = 0; i < columnNameList.length; i++) {
@@ -82,9 +84,15 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 					}
 				}
 			}
-			return st.executeUpdate();
-		} catch(SQLException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | DatabaseManagerException e) {
-			throw new DAOException(e.getCause());
+			int nbRow = st.executeUpdate();
+			
+			ResultSet keyRs = st.getGeneratedKeys();
+			if(keyRs.next()){
+				bean.getClass().getMethod("setId",Long.class).invoke(bean, keyRs.getObject(1));
+			}
+			return nbRow;
+		} catch(SQLException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | DatabaseManagerException | NoSuchMethodException | SecurityException e) {
+			throw new DAOException(e.getMessage(), e.getCause());
 		}
 	}
 	
