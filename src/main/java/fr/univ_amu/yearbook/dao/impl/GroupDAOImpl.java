@@ -23,6 +23,14 @@ import fr.univ_amu.yearbook.dao.IResultSetToBean;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 import fr.univ_amu.yearbook.dao.exception.DAOException;
 
+/**
+ * The GroupDAOImpl is the default implementation of the interface {@link IGroupDAO}.
+ * @see IGroupDAO
+ * 
+ * @author ZONGO
+ * @version 1.0
+ *
+ */
 @Service("groupDAO")
 @Primary
 public class GroupDAOImpl implements IGroupDAO {
@@ -33,6 +41,9 @@ public class GroupDAOImpl implements IGroupDAO {
 	@Autowired
 	IBeanToResultSet<Group> btrs;
 	
+	/**
+	 * Default constructor.
+	 */
 	public GroupDAOImpl() {
 		
 	}
@@ -47,6 +58,9 @@ public class GroupDAOImpl implements IGroupDAO {
 		
 	}
 	
+	/**
+	 * @see IGroupDAO#find(Long)
+	 */
 	@Override
 	public Group find(Long id) throws DAOException {
 		if(id==null) throw new DAOException("The group id is null");
@@ -73,6 +87,9 @@ public class GroupDAOImpl implements IGroupDAO {
 		}
 	}
 
+	/**
+	 * @see IGroupDAO#find()
+	 */
 	@Override
 	public Collection<Group> find() throws DAOException {
 		Connection conn = null;
@@ -98,6 +115,9 @@ public class GroupDAOImpl implements IGroupDAO {
 		}
 	}
 
+	/**
+	 * @see IGroupDAO#saveOrUpdate(Group)
+	 */
 	@Override
 	public Group saveOrUpdate(Group group) throws DAOException {
 		try {
@@ -117,6 +137,9 @@ public class GroupDAOImpl implements IGroupDAO {
 		}
 	}
 
+	/**
+	 * @see IGroupDAO#delete(Long)
+	 */
 	@Override
 	public int delete(Long id) throws DAOException {
 		Connection conn = null;
@@ -135,12 +158,18 @@ public class GroupDAOImpl implements IGroupDAO {
 		}
 	}
 
+	/**
+	 * @see IGroupDAO#delete(Group)
+	 */
 	@Override
 	public int delete(Group group) throws DAOException {
 		if(group.getId() == null) throw new DAOException("Unable to remove the group : the group id is null");
 		return delete(group.getId());
 	}
 
+	/**
+	 * @see IGroupDAO#findPersons(Long)
+	 */
 	@Override
 	public Collection<Person> findPersons(Long id) throws DAOException {
 		Connection conn = null;
@@ -166,6 +195,9 @@ public class GroupDAOImpl implements IGroupDAO {
 		}
 	}
 
+	/**
+	 * @see IGroupDAO#findPersons(Group)
+	 */
 	@Override
 	public Collection<Person> findPersons(Group group) throws DAOException {
 		if(group.getId() == null) throw new DAOException("Unable to find persons in the group : the group id is null");

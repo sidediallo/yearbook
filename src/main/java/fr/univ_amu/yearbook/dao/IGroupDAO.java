@@ -6,6 +6,12 @@ import fr.univ_amu.yearbook.bean.Group;
 import fr.univ_amu.yearbook.dao.exception.DAOException;
 import fr.univ_amu.yearbook.bean.Person;
 
+/**
+ * The IGroupDAO provides CRUD(create, read, update and delete) operations for the beans {@link Group}
+ * 
+ * @author ZONGO
+ *@version 1.0
+ */
 public interface IGroupDAO {
 	/**
 	 * Returns the group whose identifer is given in parameter.
@@ -49,9 +55,9 @@ public interface IGroupDAO {
 	public int delete(Group group) throws DAOException;
 	
 	/**
-	 * Returns all the {@link fr.univ_amu.yearbook.bean.Person persons} in this group whose identifier s given in parameter.
+	 * Returns all the {@link fr.univ_amu.yearbook.bean.Person persons} in the group whose identifier is given in parameter.
 	 * @param id identifier of the group.
-	 * @return all the {@link fr.univ_amu.yearbook.bean.Person persons} in this group whose identifier s given in parameter.
+	 * @return all the {@link fr.univ_amu.yearbook.bean.Person persons} in the group whose identifier is given in parameter.
 	 * @throws DAOException
 	 */
 	public Collection<Person> findPersons(Long id) throws DAOException;

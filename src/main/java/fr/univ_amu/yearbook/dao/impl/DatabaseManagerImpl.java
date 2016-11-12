@@ -18,6 +18,15 @@ import fr.univ_amu.yearbook.dao.IDatabaseManager;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 
 
+/**
+ * The DatabaseManagerImpl class in a implementation of the interface {@link IDatabaseManager}.<br>
+ * This implementation use a connection pool to provides connections to a database.<br>
+ * The connection pool and database properties are defined in a configuration file.
+ * 
+ * @author Utilisateur
+ *@version 1.0
+ *@see IDatabaseManager
+ */
 @Service("connectionManager")
 @Primary
 public class DatabaseManagerImpl implements IDatabaseManager {
@@ -27,14 +36,13 @@ public class DatabaseManagerImpl implements IDatabaseManager {
 	final String MIN_CONNECTION_SIZE_PROPERTY = "minConnectionSize";
 	final String MAX_CONNECTION_SIZE_PROPERTY = "maxConnectionSize";
 	
-	private String url;
-	private String user;
-	private String password;
-	private Integer minConnectionSize;
-	private Integer maxConnectionSize;
 	
 	BasicDataSource ds;
 	
+	/*
+	 * The database and connection pool configuration file.
+	 * The default configuration file is dao.properties.
+	 */
 	@Value("dao.properties")
 	private String dbConfFile;
 	
@@ -44,6 +52,11 @@ public class DatabaseManagerImpl implements IDatabaseManager {
 	
 	@PostConstruct
 	public void init() throws DatabaseManagerException{
+		String url;
+		String user;
+		String password;
+		Integer minConnectionSize;
+		Integer maxConnectionSize;
 		
 		Properties properties = new Properties();
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -55,11 +68,11 @@ public class DatabaseManagerImpl implements IDatabaseManager {
 		
 		try {
 			properties.load(file);
-			this.url = properties.getProperty(URL_PROPERTY);
-			this.user = properties.getProperty(USER_PROPERTY);
-			this.password = properties.getProperty(PASSWORD_PROPERTY);
-			this.minConnectionSize = Integer.parseInt(properties.getProperty(MIN_CONNECTION_SIZE_PROPERTY));
-			this.maxConnectionSize = Integer.parseInt(properties.getProperty(MAX_CONNECTION_SIZE_PROPERTY));
+			url = properties.getProperty(URL_PROPERTY);
+			user = properties.getProperty(USER_PROPERTY);
+			password = properties.getProperty(PASSWORD_PROPERTY);
+			minConnectionSize = Integer.parseInt(properties.getProperty(MIN_CONNECTION_SIZE_PROPERTY));
+			maxConnectionSize = Integer.parseInt(properties.getProperty(MAX_CONNECTION_SIZE_PROPERTY));
 		} catch (IOException | NumberFormatException e) {
 			throw new DatabaseManagerException("Error when reading file"+dbConfFile,e);
 		}
@@ -67,11 +80,11 @@ public class DatabaseManagerImpl implements IDatabaseManager {
 
 		
 		ds = new BasicDataSource();
-		ds.setUrl(this.url);
-		ds.setUsername(this.user);
-		ds.setPassword(this.password);
-		ds.setInitialSize(this.minConnectionSize);
-		ds.setMaxActive(this.maxConnectionSize);
+		ds.setUrl(url);
+		ds.setUsername(user);
+		ds.setPassword(password);
+		ds.setInitialSize(minConnectionSize);
+		ds.setMaxActive(maxConnectionSize);
 	}
 
 	@PreDestroy
@@ -83,6 +96,9 @@ public class DatabaseManagerImpl implements IDatabaseManager {
 		}
 	}
 	
+	/**
+	 * @see IDatabaseManager#newConnection()
+	 */
 	@Override
 	public Connection newConnection() throws DatabaseManagerException {
 		try {
@@ -93,6 +109,9 @@ public class DatabaseManagerImpl implements IDatabaseManager {
 		}
 	}
 
+	/**
+	 * @see IDatabaseManager#closeConneection(Connection)
+	 */
 	@Override
 	public void closeConneection(Connection conn){
 		if(conn != null){
@@ -104,18 +123,34 @@ public class DatabaseManagerImpl implements IDatabaseManager {
 		}
 	}
 
+	/**
+	 * 
+	 * @return the number of active connections in the pool.
+	 */
 	public int getNumActiveConnection(){
 		return ds.getNumActive();
 	}
 	
+	/**
+	 * 
+	 * @return the number of idle connection in the pool.
+	 */
 	public int getNumIdleConnection(){
 		return ds.getNumIdle();
 	}
 	
+	/**
+	 * 
+	 * @return the location of database and connection pool configuration file.
+	 */
 	public String getDbConfFile() {
 		return dbConfFile;
 	}
 
+	/**
+	 * 
+	 * @param dbConfFile the database and connection pool configuration file location.
+	 */
 	public void setDbConfFile(String dbConfFile) {
 		this.dbConfFile = dbConfFile;
 	}
