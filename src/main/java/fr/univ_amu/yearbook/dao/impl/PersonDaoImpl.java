@@ -106,14 +106,15 @@ public class PersonDaoImpl implements IPersonDao {
 			ResultSetToBeanImpl<Person> mapper = new ResultSetToBeanImpl<Person>(Person.class);
 			String query = "SELECT * FROM YEARBOOK_Person WHERE id = ?";			
 			PreparedStatement st = conn.prepareStatement(query);
+			Person p = null;
 			
 			st.setLong(1, id);
 			ResultSet rs = st.executeQuery();
 			
 			if (rs.next())
-				return mapper.toBean(rs);
-			else
-				return null;
+				p = mapper.toBean(rs);
+			dbManager.closeConneection(conn);
+			return p;
 		} catch (SQLException | DatabaseManagerException e){
 			throw new DAOException(e.getCause());
 		}
@@ -138,6 +139,7 @@ public class PersonDaoImpl implements IPersonDao {
 			while(rs.next()) {
 				people.add(findPerson(rs.getLong(1)));
 			}
+			dbManager.closeConneection(conn);
 			return people;
 		} catch (SQLException | DatabaseManagerException e){
 			throw new DAOException(e.getCause());
@@ -183,6 +185,7 @@ public class PersonDaoImpl implements IPersonDao {
 			
 			st.setLong(1, id);
 			st.executeUpdate();
+			dbManager.closeConneection(conn);
 		} catch (SQLException | DatabaseManagerException e){
 			throw new DAOException(e.getCause());
 		}
@@ -196,7 +199,8 @@ public class PersonDaoImpl implements IPersonDao {
 	 */
 	@Override
 	public void removePerson(Person p) {
-		removePerson(p.getId());
+		if (p != null)
+			removePerson(p.getId());
 	}
 
 	/**
@@ -215,7 +219,7 @@ public class PersonDaoImpl implements IPersonDao {
 			while(rs.next()) {
 				rs.deleteRow();
 			}
-			
+			dbManager.closeConneection(conn);
 		} catch (SQLException | DatabaseManagerException e){
 			throw new DAOException(e.getCause());
 		}
