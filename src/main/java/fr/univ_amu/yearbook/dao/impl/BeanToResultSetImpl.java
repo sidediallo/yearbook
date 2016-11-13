@@ -71,8 +71,8 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	 */
 	@Override
 	public int insertOrUpdate(T bean, String query, String[] columnNameList) throws DAOException {
-		try (Connection c = dbManager.newConnection()){
-			PreparedStatement st = c.prepareStatement(query);
+		try (Connection conn = dbManager.newConnection()){
+			PreparedStatement st = conn.prepareStatement(query);
 			Method[] methods = bean.getClass().getMethods();
 			
 			for (int i = 0; i < columnNameList.length; i++) {
@@ -82,7 +82,9 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 					}
 				}
 			}
-			return st.executeUpdate();
+			int updateRows = st.executeUpdate();
+			dbManager.closeConneection(conn);
+			return updateRows;
 		} catch(SQLException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | DatabaseManagerException e) {
 			throw new DAOException(e.getCause());
 		}
