@@ -46,24 +46,18 @@ public class SearchImplTest {
 	@Test
 	public void testFilter() {
 		Collection<Group> groups = groupDAO.find();
-		Collection<Group> filteredGroups =  searcher.filter(groups, new IPredicate<Group>() {
-			
-			@Override
-			public boolean apply(Group object) {
+		Collection<Group> filteredGroups =  searcher.filter(groups, (Group object) ->{
 				if(object.getName().contains("FED")) return true;
 				else return false;
 			}
-		});
+		);
 		assertTrue(filteredGroups.size() == 1); 
 		
-		Collection<Group> filteredGroups2 = searcher.filter(groups, new IPredicate<Group>() {
-			
-			@Override
-			public boolean apply(Group object) {
+		Collection<Group> filteredGroups2 = searcher.filter(groups, (Group object) -> {
 				if(object.getName().length()==16) return true;
 				else return false;
 			}
-		});
+		);
 		assertTrue(filteredGroups2.size() == 6);
 	}
 
