@@ -27,6 +27,7 @@ import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 public class ResultSetToBeanImplTest {
 	@Autowired
 	DatabaseManagerImpl connManager;
+	Connection conn;
 	ResultSetToBeanImpl<Group> rsTobean;
 	
 	@BeforeClass
@@ -39,15 +40,18 @@ public class ResultSetToBeanImplTest {
 
 	@Before
 	public void setUp() throws Exception {
+		conn = connManager.newConnection();
+		rsTobean = new ResultSetToBeanImpl<>(Group.class);
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		rsTobean = null;
+		connManager.closeConneection(conn);
 	}
 
 	@Test
 	public void testToBean() throws DatabaseManagerException, SQLException {
-		Connection conn = connManager.newConnection();
 		PreparedStatement pstm = conn.prepareStatement("INSERT INTO YEARBOOK_Group values(?,?)",Statement.RETURN_GENERATED_KEYS);
 		pstm.setObject(1, null);
 		Timestamp timestamp =  new Timestamp(System.currentTimeMillis());
@@ -64,7 +68,6 @@ public class ResultSetToBeanImplTest {
 		
 		ResultSet rs = pstm2.executeQuery();
 		
-		rsTobean = new ResultSetToBeanImpl<>(Group.class);
 		rs.next();
 		Group group = rsTobean.toBean(rs);
 		
@@ -72,7 +75,10 @@ public class ResultSetToBeanImplTest {
 		assertTrue(groupId == group.getId());
 		assertTrue(groupName.equals(group.getName()));
 		
-		connManager.closeConneection(conn);
+		//Cleaning database
+		PreparedStatement removeQuery = conn.prepareStatement("DELETE FROM yearbook_group where id = ?;");
+		removeQuery.setObject(1, group.getId());
+		removeQuery.executeUpdate();
 	}
 
 }

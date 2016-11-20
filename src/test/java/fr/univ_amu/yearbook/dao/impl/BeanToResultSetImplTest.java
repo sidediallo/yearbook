@@ -12,17 +12,19 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import fr.univ_amu.yearbook.bean.Person;
+import fr.univ_amu.yearbook.dao.IBeanToResultSet;
+import fr.univ_amu.yearbook.dao.IPersonDAO;
 import fr.univ_amu.yearbook.dao.exception.DAOException;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring.xml"})
+@ContextConfiguration(locations = {"file:src/main/resources/spring.xml"})
 public class BeanToResultSetImplTest {
 	@Autowired
-	BeanToResultSetImpl<Person> mapper;
+	IBeanToResultSet<Person> mapper;
 	
 	@Autowired
-	PersonDaoImpl dao;
+	IPersonDAO dao;
 	
 	@Test
 	public void testInsertOrUpdate() throws DAOException, DatabaseManagerException {
@@ -32,19 +34,19 @@ public class BeanToResultSetImplTest {
 				+ "VALUES (?, ?, ?, ?, ?, PASSWORD(?), ?)";
 		
 		p1.setLastName("DIALLO");
-		p1.setFirstName("Aboubacar Sidy");
-		p1.setEmail("diallo.aboubacar@localhost.fr");
-		p1.setHomePage("www.diallo_aboubacar.fr");
+		p1.setFirstName("Oumou");
+		p1.setEmail("diallo.oumou@localhost.fr");
+		p1.setHomePage("www.diallo_oumou.fr");
 		p1.setBirthDate(Date.valueOf("2016-01-01"));
-		p1.setPwd("aboubacar");
+		p1.setPwd("oumou");
 		p1.setIdG((long) 1);
 		assertEquals (1, mapper.insertOrUpdate(p1, query, parametersList));
 		
 		Person p2 = dao.findPerson(1);
-		p2.setEmail("aboubacar_diallo@localhost.fr");
-		String[] parametersListUpdate = {"email", "id"};
+		p2.setEmail("new_mail@localhost.fr");
+		String[] columnNameList = {"email", "id"};
 		String queryUpdate = "UPDATE YEARBOOK_Person SET email = ? WHERE id = ?";
-		int result = mapper.insertOrUpdate(p2, queryUpdate, parametersListUpdate);
+		int result = mapper.insertOrUpdate(p2, queryUpdate, columnNameList);
 		assertEquals (1, result);
 		assertNotEquals(-1, result);
 	}

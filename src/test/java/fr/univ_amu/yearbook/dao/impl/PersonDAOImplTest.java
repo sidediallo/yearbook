@@ -15,14 +15,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import fr.univ_amu.yearbook.bean.Person;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
+import fr.univ_amu.yearbook.dao.IPersonDAO;
 import fr.univ_amu.yearbook.dao.exception.DAOException;
-import fr.univ_amu.yearbook.dao.impl.PersonDaoImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring.xml"})
-public class PersonDaoTest {
+@ContextConfiguration(locations = {"file:src/main/resources/spring.xml"})
+public class PersonDAOImplTest {
 	@Autowired
-	PersonDaoImpl personDao;
+	IPersonDAO personDao;
 	
 	@Test
 	public void testFindPerson() throws DAOException, DatabaseManagerException {
@@ -42,7 +42,7 @@ public class PersonDaoTest {
 		List<Person> p = (List<Person>) personDao.findAllPersons();
 		
 		assertNotNull(p);
-		assertEquals(3, p.size());
+		assertEquals(8, p.size());
 	}
 
 	@Ignore
@@ -52,12 +52,13 @@ public class PersonDaoTest {
 		Person p1 = new Person();
 		
 		// ajout d'une personne
-		p1.setFirstName("Moussa");
-		p1.setEmail("camara.moussa@localhost.fr");
-		p1.setHomePage("www.camara_moussa.fr");
+		p1.setLastName("JOBS");
+		p1.setFirstName("Steve");
+		p1.setEmail("steve.jobs@localhost.fr");
+		p1.setHomePage("www.steve_jobs.fr");
 		p1.setBirthDate(Date.valueOf("2016-01-01"));
-		p1.setPwd("moussa");
-		p1.setIdG((long) 1);
+		p1.setPwd("steve");
+		p1.setIdG((long) 2);
 		personDao.saveOrUpdatePerson(p1);
 		
 		count2 = personDao.countPersons();
@@ -66,13 +67,12 @@ public class PersonDaoTest {
 
 		// màj des données d'une personne
 		Person p2 = personDao.findPerson(1);
-		String email = p2.getEmail();
 		
-		p2.setEmail("aboubacar@localhost.fr");
+		p2.setEmail("other_mail@localhost.fr");
 		personDao.saveOrUpdatePerson(p2);
 		
-		Person p3 = personDao.findPerson(1);
-		assertNotEquals(email, p3.getEmail());
+		Person p2Bis = personDao.findPerson(1);
+		assertNotEquals(p2.getEmail(), p2Bis.getEmail());
 	}
 
 	@Ignore
@@ -80,7 +80,7 @@ public class PersonDaoTest {
 		int count1 = personDao.countPersons();
 		int count2;
 		
-		personDao.removePerson(3);
+		personDao.removePerson(1);
 		count2 = personDao.countPersons();
 		
 		assertEquals(count1 - 1, count2);
@@ -117,6 +117,6 @@ public class PersonDaoTest {
 	public void testcountPersons() throws DAOException, DatabaseManagerException {
 		int countP = personDao.countPersons();
 		
-		assertEquals(2, countP);
+		assertEquals(8, countP);
 	}
 }

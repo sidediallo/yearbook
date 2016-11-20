@@ -8,19 +8,20 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import fr.univ_amu.yearbook.bean.Person;
-import fr.univ_amu.yearbook.dao.IPersonDao;
+import fr.univ_amu.yearbook.dao.IBeanToResultSet;
+import fr.univ_amu.yearbook.dao.IDatabaseManager;
+import fr.univ_amu.yearbook.dao.IPersonDAO;
+import fr.univ_amu.yearbook.dao.IResultSetToBean;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 import fr.univ_amu.yearbook.dao.exception.DAOException;
 
 /**
  * <b>PersonDaoImpl</b> est la classe qui implemente l'interface
- * {@link IPersonDao}.
+ * {@link IPersonDAO}.
  * 
  * <p>
  * Cette classe est caractérisée par :
@@ -32,7 +33,7 @@ import fr.univ_amu.yearbook.dao.exception.DAOException;
  * 
  * @see Person
  * @see DAOException
- * @see IPersonDao
+ * @see IPersonDAO
  * @see DatabaseManagerImpl
  * @see DatabaseManagerException
  * @see BeanToResultSetImpl
@@ -42,8 +43,8 @@ import fr.univ_amu.yearbook.dao.exception.DAOException;
  * @version 1.0
  *
  */
-@Repository("personDaoImpl")
-public class PersonDaoImpl implements IPersonDao {
+@Repository("personDAOImpl")
+public class PersonDAOImpl implements IPersonDAO {
 	
 	/**
 	 * L'objet qui établi la connection avec la base.
@@ -57,7 +58,7 @@ public class PersonDaoImpl implements IPersonDao {
 	 * @see {@link #removeAllPersons()}
 	 */
 	@Autowired
-	private DatabaseManagerImpl dbManager;
+	private IDatabaseManager dbManager;
 	
 	/**
 	 * Le mapper qui gère la mise à jour en base à partir d'un bean.
@@ -67,28 +68,13 @@ public class PersonDaoImpl implements IPersonDao {
 	 * @see {@link #saveOrUpdatePerson(Person)} 
 	 */
 	@Autowired
-	private BeanToResultSetImpl<Person> mapper;
+	private IBeanToResultSet<Person> mapper;
 	
 	/**
 	 * Le constructeur par défaut de la classe.
 	 */
-	public PersonDaoImpl() {
+	public PersonDAOImpl() {
 		super();
-	}
-	
-	/**
-	 * Initialisation de l'objet dbManager.
-	 * 
-	 * @throws DAOException Si la connexion n'a pas lieu.
-	 */
-	@PostConstruct
-	public void init() throws DAOException {
-		
-		try {
-			dbManager.init();
-		} catch (DatabaseManagerException e) {
-			throw new DAOException(e.getCause());
-		}
 	}
 	
 	/**
@@ -103,18 +89,16 @@ public class PersonDaoImpl implements IPersonDao {
 	public Person findPerson(long id) throws DAOException {
 		
 		try (Connection conn = dbManager.newConnection()) {
-			ResultSetToBeanImpl<Person> mapper = new ResultSetToBeanImpl<Person>(Person.class);
+			IResultSetToBean<Person> mapper = new ResultSetToBeanImpl<Person>(Person.class);
 			String query = "SELECT * FROM YEARBOOK_Person WHERE id = ?";			
 			PreparedStatement st = conn.prepareStatement(query);
-			Person p = null;
 			
 			st.setLong(1, id);
 			ResultSet rs = st.executeQuery();
 			
 			if (rs.next())
-				p = mapper.toBean(rs);
-			dbManager.closeConneection(conn);
-			return p;
+				return mapper.toBean(rs);
+			return null;
 		} catch (SQLException | DatabaseManagerException e){
 			throw new DAOException(e.getCause());
 		}
@@ -139,7 +123,6 @@ public class PersonDaoImpl implements IPersonDao {
 			while(rs.next()) {
 				people.add(findPerson(rs.getLong(1)));
 			}
-			dbManager.closeConneection(conn);
 			return people;
 		} catch (SQLException | DatabaseManagerException e){
 			throw new DAOException(e.getCause());
@@ -185,7 +168,6 @@ public class PersonDaoImpl implements IPersonDao {
 			
 			st.setLong(1, id);
 			st.executeUpdate();
-			dbManager.closeConneection(conn);
 		} catch (SQLException | DatabaseManagerException e){
 			throw new DAOException(e.getCause());
 		}
@@ -219,7 +201,6 @@ public class PersonDaoImpl implements IPersonDao {
 			while(rs.next()) {
 				rs.deleteRow();
 			}
-			dbManager.closeConneection(conn);
 		} catch (SQLException | DatabaseManagerException e){
 			throw new DAOException(e.getCause());
 		}
@@ -240,7 +221,7 @@ public class PersonDaoImpl implements IPersonDao {
 	 * 
 	 * @return Le DataBaseManager.
 	 */
-	public DatabaseManagerImpl getDbManager() {
+	public IDatabaseManager getDbManager() {
 		return dbManager;
 	}
 
@@ -249,7 +230,7 @@ public class PersonDaoImpl implements IPersonDao {
 	 * 
 	 * @param dbManager Le nouveau DataBaseManager.
 	 */
-	public void setDbManager(DatabaseManagerImpl dbManager) {
+	public void setDbManager(IDatabaseManager dbManager) {
 		this.dbManager = dbManager;
 	}
 
@@ -258,7 +239,7 @@ public class PersonDaoImpl implements IPersonDao {
 	 * 
 	 * @return Le mapper.
 	 */
-	public BeanToResultSetImpl<Person> getMapper() {
+	public IBeanToResultSet<Person> getMapper() {
 		return mapper;
 	}
 
@@ -267,7 +248,7 @@ public class PersonDaoImpl implements IPersonDao {
 	 * 
 	 * @param mapper Le nouveau mapper.
 	 */
-	public void setMapper(BeanToResultSetImpl<Person> mapper) {
+	public void setMapper(IBeanToResultSet<Person> mapper) {
 		this.mapper = mapper;
 	}
 }

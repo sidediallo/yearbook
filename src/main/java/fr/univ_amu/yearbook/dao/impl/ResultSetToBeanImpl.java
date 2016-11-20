@@ -27,6 +27,9 @@ public class ResultSetToBeanImpl<T> implements IResultSetToBean<T>{
 		this.clazz = clazz;
 	}
 	
+	/**
+	 * @see IResultSetToBean#toBean(ResultSet)
+	 */
 	@Override
 	public T toBean(ResultSet resultSet) throws DAOException {
 		try {

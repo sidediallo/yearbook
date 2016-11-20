@@ -7,7 +7,7 @@ import fr.univ_amu.yearbook.bus.personManager.IPersonManager;
 import fr.univ_amu.yearbook.bus.personManager.exception.PersonManagerException;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 import fr.univ_amu.yearbook.dao.exception.DAOException;
-import fr.univ_amu.yearbook.dao.impl.PersonDaoImpl;
+import fr.univ_amu.yearbook.dao.impl.PersonDAOImpl;
 
 /**
  * <b>PersonManagerImpl</b> implémente IPersonManager.
@@ -34,7 +34,7 @@ public class PersonManagerImpl implements IPersonManager {
 	 * @see PersonManagerImpl#removePerson(Person)
 	 * @see PersonManagerImpl#removeAllPersons()
 	 */
-	private PersonDaoImpl dao;
+	private PersonDAOImpl dao;
 	
 	/**
 	 * Constructeur par défaut de la classe.
@@ -49,8 +49,8 @@ public class PersonManagerImpl implements IPersonManager {
 	 * @throws DatabaseManagerException Si une exception est levée.
 	 */
 	public void init() throws DatabaseManagerException {
-		dao = new PersonDaoImpl();
-		dao.init();
+		dao = new PersonDAOImpl();
+		//dao.init();
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class PersonManagerImpl implements IPersonManager {
 	 * 
 	 * @return la PersonDao.
 	 */
-	public PersonDaoImpl getDao() {
+	public PersonDAOImpl getDao() {
 		return dao;
 	}
 
@@ -148,7 +148,7 @@ public class PersonManagerImpl implements IPersonManager {
 	 * 
 	 * @param dao La nouvelle PersonDao.
 	 */
-	public void setDao(PersonDaoImpl dao) {
+	public void setDao(PersonDAOImpl dao) {
 		this.dao = dao;
 	}
 }

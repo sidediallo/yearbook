@@ -9,6 +9,9 @@
         
         	<context:annotation-config/>
 	<context:component-scan base-package="fr.univ_amu.yearbook.dao.impl"/>
+	<context:component-scan base-package="fr.univ_amu.yearbook.bus.search"/>
+	<context:component-scan base-package="fr.univ_amu.yearbook.bus.groupManager"/>
+	<context:component-scan base-package="fr.univ_amu.yearbook.bus.mailer"/>
          	
          	
 </beans>

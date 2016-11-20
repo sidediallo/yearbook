@@ -6,12 +6,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import fr.univ_amu.yearbook.dao.IBeanToResultSet;
+import fr.univ_amu.yearbook.dao.IDatabaseManager;
 import fr.univ_amu.yearbook.dao.exception.DAOException;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 
@@ -38,26 +37,13 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	 * @see {@link #insertOrUpdate(T, String, String[])}
 	 */
 	@Autowired
-	private DatabaseManagerImpl dbManager;
+	private IDatabaseManager dbManager;
 	
 	/**
 	 * Constructeur par défaut de la classe
 	 */
 	public BeanToResultSetImpl() {
 		super();
-	}
-	
-	/**
-	 * Initialisation de l'objet dbManager.
-	 * @throws DatabaseManagerException 
-	 */
-	@PostConstruct
-	public void init() {
-		try {
-			dbManager.init();
-		} catch (DatabaseManagerException e) {
-			throw new DAOException(e.getCause());
-		}
 	}
 	
 	/**
@@ -71,6 +57,7 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	 */
 	@Override
 	public int insertOrUpdate(T bean, String query, String[] columnNameList) throws DAOException {
+		
 		try (Connection conn = dbManager.newConnection()){
 			PreparedStatement st = conn.prepareStatement(query);
 			Method[] methods = bean.getClass().getMethods();
@@ -82,9 +69,8 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 					}
 				}
 			}
-			int updateRows = st.executeUpdate();
-			dbManager.closeConneection(conn);
-			return updateRows;
+			
+			return st.executeUpdate();
 		} catch(SQLException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | DatabaseManagerException e) {
 			throw new DAOException(e.getCause());
 		}
@@ -107,7 +93,7 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	 * 
 	 * @return Le DataBaseManager.
 	 */
-	public DatabaseManagerImpl getDbManager() {
+	public IDatabaseManager getDbManager() {
 		return dbManager;
 	}
 
@@ -116,7 +102,7 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	 * 
 	 * @param dbManager Le nouveau DataBaseManager.
 	 */
-	public void setDbManager(DatabaseManagerImpl dbManager) {
+	public void setDbManager(IDatabaseManager dbManager) {
 		this.dbManager = dbManager;
 	}
 }

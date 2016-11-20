@@ -16,7 +16,7 @@ import fr.univ_amu.yearbook.dao.exception.DAOException;
  * @version 1.0
  *
  */
-public interface IPersonDao {
+public interface IPersonDAO {
 	
 	/**
 	 * Recherche et renvoie la personne associée à l'identifiant.
