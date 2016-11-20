@@ -33,13 +33,13 @@ public class BeanToResultSetImplTest {
 		String query = "INSERT INTO YEARBOOK_Person (lastName, firstName, email, homepage, birthDate, pwd, idG)"
 				+ "VALUES (?, ?, ?, ?, ?, PASSWORD(?), ?)";
 		
-		p1.setLastName("DIALLO");
-		p1.setFirstName("Oumou");
-		p1.setEmail("diallo.oumou@localhost.fr");
-		p1.setHomePage("www.diallo_oumou.fr");
+		p1.setLastName("GATES");
+		p1.setFirstName("Bill");
+		p1.setEmail("bill.gates@localhost.fr");
+		p1.setHomePage("www.bill_gates.fr");
 		p1.setBirthDate(Date.valueOf("2016-01-01"));
-		p1.setPwd("oumou");
-		p1.setIdG((long) 1);
+		p1.setPwd("bill");
+		p1.setIdG((long) 2);
 		assertEquals (1, mapper.insertOrUpdate(p1, query, parametersList));
 		
 		Person p2 = dao.findPerson(1);
