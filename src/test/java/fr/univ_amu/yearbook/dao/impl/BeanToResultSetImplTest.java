@@ -3,6 +3,7 @@ package fr.univ_amu.yearbook.dao.impl;
 import static org.junit.Assert.*;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +19,7 @@ import fr.univ_amu.yearbook.dao.exception.DAOException;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/main/resources/spring.xml"})
+@ContextConfiguration(locations = {"classpath:spring.xml"})
 public class BeanToResultSetImplTest {
 	@Autowired
 	IBeanToResultSet<Person> mapper;
@@ -28,6 +29,7 @@ public class BeanToResultSetImplTest {
 	
 	@Test
 	public void testInsertOrUpdate() throws DAOException, DatabaseManagerException {
+		List<Person> p = (List<Person>) dao.findAllPersons();
 		Person p1 = new Person();
 		String[] parametersList = {"lastName", "firstName","email", "homePage", "birthDate", "pwd", "idG"};
 		String query = "INSERT INTO YEARBOOK_Person (lastName, firstName, email, homepage, birthDate, pwd, idG)"
@@ -44,7 +46,7 @@ public class BeanToResultSetImplTest {
 		
 		dao.removePerson(p1);
 		
-		Person p2 = dao.findPerson(1);
+		Person p2 = dao.findPerson(p.get(0).getId());
 		p2.setEmail("new_mail@localhost.fr");
 		String[] columnNameList = {"email", "id"};
 		String queryUpdate = "UPDATE YEARBOOK_Person SET email = ? WHERE id = ?";
