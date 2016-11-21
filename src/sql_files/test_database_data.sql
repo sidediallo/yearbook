@@ -17,12 +17,12 @@ INSERT INTO yearbook_group (id, name) VALUES
 
 
 -- Inserts peoples
-INSERT INTO yearbook_person (lastName, firstName, email, homepage, birthDate, pwd, idG) VALUES 
-('KONDI', 'Marie', 'kondimarie@gmail.com', 'www.kondi_marie.fr', STR_TO_DATE('2015/06/22','%Y/%m/%d'), PASSWORD('marie'), 1),
-('CAMARA', 'Moussa', 'camaramoussa@gmail.com', 'www.camara_moussa.fr', STR_TO_DATE('1963/11/01','%Y/%m/%d'), PASSWORD('moussa'), 1),
-('DIALLO', 'Aboubacar Sidy', 'sidediallo@yahoo.fr', 'www.diallo_aboubacar.fr', STR_TO_DATE('2016/03/01','%Y/%m/%d'), PASSWORD('aboubacar'), 1),
-('INMON', 'Bill', 'bill.inmon@gmail.com', 'www.inmoncif.com/home/', STR_TO_DATE('1963/11/01','%Y/%m/%d'), PASSWORD('inmon'), 2),
-('KIMBALL', 'Ralph', 'ralph.kimball@gmail.com', 'www.kimballgroup.com', STR_TO_DATE('1944/01/01','%Y/%m/%d'), PASSWORD('ralph'), 2),
-('KABORE', 'Eliane', 'eliane.kabore@gmail.com', NULL, STR_TO_DATE('1997/10/11','%Y/%m/%d'), PASSWORD('eliane'), 3),
-('YARBANGA', 'W. Emmanuel', 'emmanuel.yarbanga@yahoo.fr', NULL, STR_TO_DATE('1980/12/09','%Y/%m/%d'), PASSWORD('emmanuel'), 3),
-('SMITH', 'Page', 'page.smith@yahoo.fr', 'www.smith.com', STR_TO_DATE('1983/07/19','%Y/%m/%d'), PASSWORD('smith'), 7);
+INSERT INTO yearbook_person (id, lastName, firstName, email, homepage, birthDate, pwd, idG) VALUES 
+(1, 'KONDI', 'Marie', 'kondimarie@gmail.com', 'www.kondi_marie.fr', STR_TO_DATE('2015/06/22','%Y/%m/%d'), PASSWORD('marie'), 1),
+(2, 'CAMARA', 'Moussa', 'camaramoussa@gmail.com', 'www.camara_moussa.fr', STR_TO_DATE('1963/11/01','%Y/%m/%d'), PASSWORD('moussa'), 1),
+(3, 'DIALLO', 'Aboubacar Sidy', 'sidediallo@yahoo.fr', 'www.diallo_aboubacar.fr', STR_TO_DATE('2016/03/01','%Y/%m/%d'), PASSWORD('aboubacar'), 1),
+(4, 'INMON', 'Bill', 'bill.inmon@gmail.com', 'www.inmoncif.com/home/', STR_TO_DATE('1963/11/01','%Y/%m/%d'), PASSWORD('inmon'), 2),
+(5, 'KIMBALL', 'Ralph', 'ralph.kimball@gmail.com', 'www.kimballgroup.com', STR_TO_DATE('1944/01/01','%Y/%m/%d'), PASSWORD('ralph'), 2),
+(6, 'KABORE', 'Eliane', 'eliane.kabore@gmail.com', NULL, STR_TO_DATE('1997/10/11','%Y/%m/%d'), PASSWORD('eliane'), 3),
+(7, 'YARBANGA', 'W. Emmanuel', 'emmanuel.yarbanga@yahoo.fr', NULL, STR_TO_DATE('1980/12/09','%Y/%m/%d'), PASSWORD('emmanuel'), 3),
+(8, 'SMITH', 'Page', 'page.smith@yahoo.fr', 'www.smith.com', STR_TO_DATE('1983/07/19','%Y/%m/%d'), PASSWORD('smith'), 7);
