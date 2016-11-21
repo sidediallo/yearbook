@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.sql.Date;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -19,15 +18,17 @@ import fr.univ_amu.yearbook.dao.IPersonDAO;
 import fr.univ_amu.yearbook.dao.exception.DAOException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/main/resources/spring.xml"})
+@ContextConfiguration(locations = {"classpath:spring.xml"})
 public class PersonDAOImplTest {
 	@Autowired
 	IPersonDAO personDao;
 	
 	@Test
 	public void testFindPerson() throws DAOException, DatabaseManagerException {
+		List<Person> p = (List<Person>) personDao.findAllPersons();
 		long id = Long.MAX_VALUE;
-		Person p1 = personDao.findPerson(1);
+		Person p1 = personDao.findPerson(p.get(0).getId());
+		
 		Person p2 = personDao.findPerson(id);
 		
 		assertNotNull(p1);
@@ -37,7 +38,7 @@ public class PersonDAOImplTest {
 		assertFalse("false", p2 instanceof Person);
 	}
 
-	@Ignore
+	@Test
 	public void testFindAllPersons() throws DAOException, DatabaseManagerException {
 		List<Person> p = (List<Person>) personDao.findAllPersons();
 		
@@ -45,7 +46,7 @@ public class PersonDAOImplTest {
 		assertEquals(8, p.size());
 	}
 
-	@Ignore
+	@Test
 	public void testSaveOrUpdatePerson() throws DAOException {
 		int count1 = personDao.countPersons();
 		int count2;
@@ -62,47 +63,75 @@ public class PersonDAOImplTest {
 		personDao.saveOrUpdatePerson(p1);
 		
 		count2 = personDao.countPersons();
+		assertNotNull(p1.getId());
 		assertEquals(count1 + 1, count2);
 		assertNotEquals(count1, count2);
 
 		// màj des données d'une personne
-		Person p2 = personDao.findPerson(1);
+		Person p2 = personDao.findPerson(p1.getId());
 		
 		p2.setEmail("other_mail@localhost.fr");
 		personDao.saveOrUpdatePerson(p2);
 		
-		Person p2Bis = personDao.findPerson(1);
-		assertNotEquals(p2.getEmail(), p2Bis.getEmail());
+		Person p2Bis = personDao.findPerson(p1.getId());
+		assertEquals(p2.getEmail(), p2Bis.getEmail());
+		
+		personDao.removePerson(p1);
 	}
 
-	@Ignore
+	@Test
 	public void testRemovePersonLong() throws DAOException, DatabaseManagerException {
-		int count1 = personDao.countPersons();
+		int count1;
 		int count2;
+		Person p1 = new Person();
 		
-		personDao.removePerson(1);
+		// ajout d'une personne
+		p1.setLastName("JOBS");
+		p1.setFirstName("Steve");
+		p1.setEmail("steve.jobs@localhost.fr");
+		p1.setHomePage("www.steve_jobs.fr");
+		p1.setBirthDate(Date.valueOf("2016-01-01"));
+		p1.setPwd("steve");
+		p1.setIdG((long) 2);
+		personDao.saveOrUpdatePerson(p1);
+		
+		count1 = personDao.countPersons();
+		personDao.removePerson(p1.getId());
 		count2 = personDao.countPersons();
 		
 		assertEquals(count1 - 1, count2);
 		assertNotEquals(count1, count2);
 	}
 
-	@Ignore
+	@Test
 	public void testRemovePersonPerson() throws DAOException, DatabaseManagerException {
-		Person p = new Person();
+		Person p1 = new Person();
+		
+		// ajout d'une personne
+		p1.setLastName("JOBS");
+		p1.setFirstName("Steve");
+		p1.setEmail("steve.jobs@localhost.fr");
+		p1.setHomePage("www.steve_jobs.fr");
+		p1.setBirthDate(Date.valueOf("2016-01-01"));
+		p1.setPwd("steve");
+		p1.setIdG((long) 2);
+		personDao.saveOrUpdatePerson(p1);
+		
 		int count1 = personDao.countPersons();
 		int count2;
 		
-		p.setId((long) 2);
-		personDao.removePerson(p);
+		personDao.removePerson(p1);
 		count2 = personDao.countPersons();
 		
 		assertEquals(count1 - 1, count2);
 		assertNotEquals(count1, count2);
 	}
 
-	@Ignore
+	@Test
 	public void testRemoveAllPersons() throws DAOException, DatabaseManagerException {
+		List<Person> people = (List<Person>) personDao.findAllPersons();
+		
+		
 		int count1 = personDao.countPersons();
 		int count2;
 		
@@ -111,9 +140,16 @@ public class PersonDAOImplTest {
 		
 		assertEquals(0, count2);
 		assertNotEquals(count1, count2);
+		
+		for (Person p : people) {
+			p.setId(null);
+			personDao.saveOrUpdatePerson(p);
+		}
+		
+		assertEquals(8, personDao.findAllPersons().size());
 	}
 
-	@Ignore
+	@Test
 	public void testcountPersons() throws DAOException, DatabaseManagerException {
 		int countP = personDao.countPersons();
 		
