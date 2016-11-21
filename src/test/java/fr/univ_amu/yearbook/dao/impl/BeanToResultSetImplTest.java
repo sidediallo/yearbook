@@ -42,6 +42,8 @@ public class BeanToResultSetImplTest {
 		p1.setIdG((long) 2);
 		assertEquals (1, mapper.insertOrUpdate(p1, query, parametersList));
 		
+		dao.removePerson(p1);
+		
 		Person p2 = dao.findPerson(1);
 		p2.setEmail("new_mail@localhost.fr");
 		String[] columnNameList = {"email", "id"};
