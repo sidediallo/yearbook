@@ -6,13 +6,14 @@ import fr.univ_amu.yearbook.bean.Person;
 import fr.univ_amu.yearbook.dao.exception.DAOException;
 
 /**
- * <b>IPersonDao</b> est l'interface qui gère les méthodes
- * du DAO.
+ * <b>IPersonDao</b> est l'interface qui gère la DAO
+ * d'une personne.
  *
  * @see Person
  * @see DAOException
  *  
- * @author Aboubacar Sidy DIALLO & Inoussa ZONGO
+ * @author Aboubacar Sidy DIALLO
+ * @author Inoussa ZONGO
  * @version 1.0
  *
  */
@@ -71,7 +72,7 @@ public interface IPersonDAO {
 	/**
 	 * Calcul le nombre de personnes de la base.
 	 * 
-	 * @return Le nombre de personne.
+	 * @return Le nombre de personnes.
 	 */
 	public int countPersons();
 }
