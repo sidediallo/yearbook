@@ -19,7 +19,7 @@ import fr.univ_amu.yearbook.dao.exception.DAOException;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring.xml"})
+@ContextConfiguration(locations = {"classpath:spring_test.xml"})
 public class BeanToResultSetImplTest {
 	@Autowired
 	IBeanToResultSet<Person> mapper;
