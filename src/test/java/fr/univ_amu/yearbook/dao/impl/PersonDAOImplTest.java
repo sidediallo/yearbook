@@ -18,7 +18,7 @@ import fr.univ_amu.yearbook.dao.IPersonDAO;
 import fr.univ_amu.yearbook.dao.exception.DAOException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring.xml"})
+@ContextConfiguration(locations = {"classpath:spring_test.xml"})
 public class PersonDAOImplTest {
 	@Autowired
 	IPersonDAO personDao;
