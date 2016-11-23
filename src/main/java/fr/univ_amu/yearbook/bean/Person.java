@@ -20,10 +20,10 @@ import java.sql.Date;
  * </ul>
  * </p>
  * 
- * @see java.sql.Date
- * @see Group
  * 
- * @author Aboubacar Sidy DIALLO & Inoussa ZONGO
+ * @author Aboubacar Sidy DIALLO
+ * @author Inoussa ZONGO
+ * 
  * @version 1.0
  *
  */
@@ -32,64 +32,64 @@ public class Person {
 	/**
 	 * L'identifiant d'une personne. Cet id n'est pas modifiable.
 	 * 
-	 * @see Person#getId()
-	 * @see Person#setId(Long)
+	 * @see #getId()
+	 * @see #setId(Long)
 	 */
 	private Long id;
 	
 	/**
 	 * Le nom d'une personne
 	 * 
-	 * @see Person#getLastName()
-	 * @see Person#setLastName(String)
+	 * @see #getLastName()
+	 * @see #setLastName(String)
 	 */
 	private String lastName;
 	
 	/**
 	 * Le prénom d'une personne.
 	 * 
-	 * @see Person#getFirstName()
-	 * @see Person#setFirstName(String)
+	 * @see #getFirstName()
+	 * @see #setFirstName(String)
 	 */
 	private String firstName;
 	
 	/**
 	 * L'email d'une personne.
 	 * 
-	 * @see Person#getEmail()
-	 * @see Person#setEmail(String)
+	 * @see #getEmail()
+	 * @see #setEmail(String)
 	 */
 	private String email;
 	
 	/**
 	 * Le site web d'une personne
 	 * 
-	 * @see Person#getHomePage()
-	 * @see Person#setHomePage(String)
+	 * @see #getHomePage()
+	 * @see #setHomePage(String)
 	 */
 	private String homePage;
 	
 	/**
 	 * La date de naissance d'une personne
 	 * 
-	 * @see Person#getBirthDate()
-	 * @see Person#setBirthDate(Date)
+	 * @see #getBirthDate()
+	 * @see #setBirthDate(Date)
 	 */
 	private Date birthDate;
 	
 	/**
 	 * Le mot de passe d'une personne
 	 * 
-	 * @see Person#getPwd()
-	 * @see Person#setPwd(String)
+	 * @see #getPwd()
+	 * @see #setPwd(String)
 	 */
 	private String pwd;
 	
 	/**
 	 * L'identifiant du groupe auquel appartient la personne.
 	 * 
-	 * @see Person#getIdG()
-	 * Person#setIdG(Long idG)
+	 * @see #getIdG()
+	 * @see #setIdG(Long idG)
 	 */
 	private Long idG;
 	
@@ -188,7 +188,7 @@ public class Person {
 	 * Met à jour le site web de la personne.
 	 * Cet site web est unique.
 	 * 
-	 * @param webSite Le nouveau site web.
+	 * @param homePage Le nouveau site web.
 	 */
 	public void setHomePage(String homePage) {
 		this.homePage = homePage;
@@ -242,7 +242,7 @@ public class Person {
 	/**
 	 * Met à jour du groupe auquel appartient la personne.
 	 * 
-	 * @param group Le nouveau groupe.
+	 * @param idG Le nouveau groupe.
 	 */
 	public void setIdG(Long idG) {
 		this.idG = idG;
