@@ -4,10 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.Collection;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +14,7 @@ import fr.univ_amu.yearbook.bean.Group;
 import fr.univ_amu.yearbook.dao.IGroupDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring.xml"})
+@ContextConfiguration(locations = {"file:src/main/resources/spring.xml"})
 public class SearchImplTest {
 	
 	@Autowired
@@ -27,22 +23,7 @@ public class SearchImplTest {
 	@Autowired
 	ISearch<Group> searcher;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
+	
 	@Test
 	public void testFilter() {
 		Collection<Group> groups = groupDAO.find();
