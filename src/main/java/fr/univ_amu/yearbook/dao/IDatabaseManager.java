@@ -8,7 +8,8 @@ import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
  * The IDatabaseManager interface provide operations 
  * to get connections to database and close them properly.
  * 
- * @author ZONGO
+ * @author Aboubacar Sidy DIALLO
+ * @author Inoussa ZONGO
  * @version 1.0
  *
  */
