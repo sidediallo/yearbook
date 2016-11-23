@@ -8,12 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import fr.univ_amu.yearbook.dao.IBeanToResultSet;
+import fr.univ_amu.yearbook.dao.IDatabaseManager;
 import fr.univ_amu.yearbook.dao.exception.DAOException;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 
@@ -23,8 +22,10 @@ import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
  * Elle permet la màj de la table correspondante au bean dans la bdd.
  *
  * @see DAOException
+ * @see IDatabaseManager
  *  
- * @author Aboubacar Sidy DIALLO & Inoussa ZONGO
+ * @author Aboubacar Sidy DIALLO
+ * @author Inoussa ZONGO
  * @version 1.0
  *
  */
@@ -34,13 +35,12 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	/**
 	 * Gère la connexion à la base de données.
 	 * 
-	 * @see {@link #getDbManager()}
-	 * @see {@link #setDbManager(DatabaseManagerImpl)}
-	 * @see {@link #init()}
-	 * @see {@link #insertOrUpdate(T, String, String[])}
+	 * @see #getDbManager()
+	 * @see #setDbManager(IDatabaseManager)
+	 * @see #insertOrUpdate(T, String, String[])
 	 */
 	@Autowired
-	private DatabaseManagerImpl dbManager;
+	private IDatabaseManager dbManager;
 	
 	/**
 	 * Constructeur par défaut de la classe
@@ -50,25 +50,12 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	}
 	
 	/**
-	 * Initialisation de l'objet dbManager.
-	 * @throws DatabaseManagerException 
-	 */
-	@PostConstruct
-	public void init() {
-		try {
-			dbManager.init();
-		} catch (DatabaseManagerException e) {
-			throw new DAOException(e.getCause());
-		}
-	}
-	
-	/**
 	 * Fait la màj de la table correspondante au bean dans la bdd.
 	 * 
 	 * @param bean Le bean.
 	 * @param query La requête.
 	 * @param columnNameList La liste des paramètres.
-	 * @return Le nombre de lignes modifiées ou -1.
+	 * @return Le nombre de lignes modifiées.
 	 * @throws DAOException Si une exception est levée.
 	 */
 	@Override
@@ -100,7 +87,7 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	 * Vérifie qu'une méthode est un getter.
 	 * 
 	 * @param method La méthode.
-	 * @return true si c'est un getter et false sinon.
+	 * @return True si c'est un getter et false sinon.
 	 */
 	private boolean isGetter(Method method) {
 		return (method.getName().startsWith("get"))
@@ -109,20 +96,20 @@ public class BeanToResultSetImpl<T> implements IBeanToResultSet<T> {
 	}
 	
 	/**
-	 * Retourne le DataBaseManager.
+	 * Retourne une instance de l'interface IDataBaseManager
 	 * 
-	 * @return Le DataBaseManager.
+	 * @return L'instance de IDataBaseManager.
 	 */
-	public DatabaseManagerImpl getDbManager() {
+	public IDatabaseManager getDbManager() {
 		return dbManager;
 	}
 
 	/**
-	 * Mise à jour du DataBaseManager.
+	 * Mise à jour de l'instance de IDataBaseManager.
 	 * 
-	 * @param dbManager Le nouveau DataBaseManager.
+	 * @param dbManager La nouvelle instance de IDataBaseManager.
 	 */
-	public void setDbManager(DatabaseManagerImpl dbManager) {
+	public void setDbManager(IDatabaseManager dbManager) {
 		this.dbManager = dbManager;
 	}
 }
