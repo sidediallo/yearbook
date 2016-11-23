@@ -9,8 +9,9 @@ import fr.univ_amu.yearbook.bean.Person;
 /**
  * The IGroupDAO provides CRUD(create, read, update and delete) operations for the beans {@link Group}
  * 
- * @author ZONGO
- *@version 1.0
+ * @author Aboubacar Sidy DIALLO
+ * @author Inoussa ZONGO
+ * @version 1.0
  */
 public interface IGroupDAO {
 	/**
