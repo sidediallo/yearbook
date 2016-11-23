@@ -27,7 +27,8 @@ import fr.univ_amu.yearbook.dao.exception.DAOException;
  * The GroupDAOImpl is the default implementation of the interface {@link IGroupDAO}.
  * @see IGroupDAO
  * 
- * @author ZONGO
+ * @author Aboubacar Sidy DIALLO
+ * @author Inoussa ZONGO
  * @version 1.0
  *
  */
