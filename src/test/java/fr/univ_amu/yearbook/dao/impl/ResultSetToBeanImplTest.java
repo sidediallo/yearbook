@@ -23,7 +23,7 @@ import fr.univ_amu.yearbook.bean.Group;
 import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring.xml"})
+@ContextConfiguration(locations = {"classpath:spring_test.xml"})
 public class ResultSetToBeanImplTest {
 	@Autowired
 	DatabaseManagerImpl connManager;
