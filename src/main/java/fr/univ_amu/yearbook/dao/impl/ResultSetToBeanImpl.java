@@ -13,7 +13,8 @@ import fr.univ_amu.yearbook.dao.exception.DAOException;
  * ResultSetToBeanImpl class gives an implementation 
  * for {@link fr.univ_amu.yearbook.dao.IResultSetToBean IResultSetToBean} interface.
  * 
- * @author ZONGO
+ * @author Aboubacar Sidy DIALLO
+ * @author Inoussa ZONGO
  *
  * @param <T> parameter type that represents the type of the bean.
  */
