@@ -23,9 +23,12 @@ import fr.univ_amu.yearbook.dao.exception.DatabaseManagerException;
  * This implementation use a connection pool to provides connections to a database.<br>
  * The connection pool and database properties are defined in a configuration file.
  * 
- * @author Utilisateur
- *@version 1.0
- *@see IDatabaseManager
+ * @author Aboubacar Sidy DIALLO
+ * @author Inoussa ZONGO
+ * 
+ * @version 1.0
+ * 
+ * @see IDatabaseManager
  */
 @Service("connectionManager")
 @Primary
@@ -39,7 +42,7 @@ public class DatabaseManagerImpl implements IDatabaseManager {
 	
 	BasicDataSource ds;
 	
-	/*
+	/**
 	 * The database and connection pool configuration file.
 	 * The default configuration file is dao.properties.
 	 */
@@ -47,7 +50,7 @@ public class DatabaseManagerImpl implements IDatabaseManager {
 	private String dbConfFile;
 	
 	public DatabaseManagerImpl() {
-		
+		super();
 	}
 	
 	@PostConstruct
@@ -110,6 +113,7 @@ public class DatabaseManagerImpl implements IDatabaseManager {
 	}
 
 	/**
+	 * @param conn 
 	 * @see IDatabaseManager#closeConneection(Connection)
 	 */
 	@Override
