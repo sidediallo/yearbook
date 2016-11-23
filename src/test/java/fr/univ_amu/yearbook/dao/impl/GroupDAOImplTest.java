@@ -26,7 +26,7 @@ import fr.univ_amu.yearbook.dao.IGroupDAO;
 import fr.univ_amu.yearbook.bean.Person;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring.xml"})
+@ContextConfiguration(locations = {"classpath:spring_test.xml"})
 public class GroupDAOImplTest {
 
 	@Autowired
