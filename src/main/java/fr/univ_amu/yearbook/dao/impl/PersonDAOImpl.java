@@ -23,23 +23,19 @@ import fr.univ_amu.yearbook.dao.exception.DAOException;
  * <b>PersonDaoImpl</b> est la classe qui implemente l'interface
  * {@link IPersonDAO}.
  * 
- * <p>
  * Cette classe est caractérisée par :
  * <ul>
  * <li>Un objet qui crée une connection à la base de données.</li>
  * <li>Un mapper qui gère la mise à jour en base à partir d'un bean.</li>
  * </ul>
- * </p>
  * 
  * @see Person
  * @see DAOException
- * @see IPersonDAO
- * @see DatabaseManagerImpl
- * @see DatabaseManagerException
- * @see BeanToResultSetImpl
- * @see ResultSetToBeanImpl
+ * @see IDatabaseManager
+ * @see IBeanToResultSet
  * 
- * @author Aboubacar Sidy DIALLO & Inoussa ZONGO
+ * @author Aboubacar Sidy DIALLO
+ * @author Inoussa ZONGO
  * @version 1.0
  *
  */
@@ -49,13 +45,13 @@ public class PersonDAOImpl implements IPersonDAO {
 	/**
 	 * L'objet qui établi la connection avec la base.
 	 * 
-	 * @see {@link #getDbManager()}
-	 * @see {@link #setDbManager(DatabaseManagerImpl)}
-	 * @see {@link #init()}
-	 * @see {@link #findPerson(long)}
-	 * @see {@link #findAllPersons()}
-	 * @see {@link #removePerson(long)}
-	 * @see {@link #removeAllPersons()}
+	 * @see #getDbManager()
+	 * @see #setDbManager(DatabaseManagerImpl)
+	 * @see #init()
+	 * @see #findPerson(long)
+	 * @see #findAllPersons()
+	 * @see #removePerson(long)
+	 * @see #removeAllPersons()
 	 */
 	@Autowired
 	private IDatabaseManager dbManager;
@@ -63,9 +59,9 @@ public class PersonDAOImpl implements IPersonDAO {
 	/**
 	 * Le mapper qui gère la mise à jour en base à partir d'un bean.
 	 * 
-	 * @see {@link #getMapper()}
-	 * @see {@link #setMapp(BeanToResultSetImpl)}
-	 * @see {@link #saveOrUpdatePerson(Person)} 
+	 * @see #getMapper()
+	 * @see #setMapp(BeanToResultSetImpl)
+	 * @see #saveOrUpdatePerson(Person) 
 	 */
 	@Autowired
 	private IBeanToResultSet<Person> mapper;
@@ -209,7 +205,7 @@ public class PersonDAOImpl implements IPersonDAO {
 	/**
 	 * Calcul le nombre de personnes de la base.
 	 * 
-	 * @return Le nombre de personne.
+	 * @return Le nombre de personnes.
 	 */
 	@Override
 	public int countPersons() {
@@ -217,18 +213,18 @@ public class PersonDAOImpl implements IPersonDAO {
 	}
 
 	/**
-	 * Retourne le DataBaseManager.
+	 * Retourne une instance de IDataBaseManager.
 	 * 
-	 * @return Le DataBaseManager.
+	 * @return L'instance de IDataBaseManager.
 	 */
 	public IDatabaseManager getDbManager() {
 		return dbManager;
 	}
 
 	/**
-	 * Mise à jour du DataBaseManager.
+	 * Mise à jour de l'instance de IDataBaseManager.
 	 * 
-	 * @param dbManager Le nouveau DataBaseManager.
+	 * @param dbManager Le nouveau IDataBaseManager.
 	 */
 	public void setDbManager(IDatabaseManager dbManager) {
 		this.dbManager = dbManager;
