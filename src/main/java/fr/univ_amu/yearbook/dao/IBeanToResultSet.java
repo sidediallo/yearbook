@@ -7,8 +7,10 @@ import fr.univ_amu.yearbook.dao.exception.DAOException;
  * à partir d'un bean un ResultSet.
  *
  * @see DAOException
+ * @see IDatabaseManager
  *  
- * @author Aboubacar Sidy DIALLO & Inoussa ZONGO
+ * @author Aboubacar Sidy DIALLO
+ * @author Inoussa ZONGO
  * @version 1.0
  *
  */
@@ -20,7 +22,7 @@ public interface IBeanToResultSet<T> {
 	 * @param bean Le bean.
 	 * @param query La requête.
 	 * @param columnNameList La liste des paramètres.
-	 * @return Le nombre de lignes modifiées ou -1.
+	 * @return Le nombre de lignes modifiées.
 	 * @throws DAOException Si une exception est levée.
 	 */
 	public int insertOrUpdate(T bean, String query, String[] columnNameList) throws DAOException;
