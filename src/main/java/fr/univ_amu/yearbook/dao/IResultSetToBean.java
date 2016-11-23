@@ -7,8 +7,9 @@ import fr.univ_amu.yearbook.dao.exception.DAOException;
 /**
  * The IResultsetToBean interfaces defines method to convert a result to a java bean.
  * 
- * @author Utilisateur
- *@version 1.0
+ * @author Aboubacar Sidy DIALLO
+ * @author Inoussa ZONGO
+ * @version 1.0
  */
 public interface IResultSetToBean<T>{
 	/**
